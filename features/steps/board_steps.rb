@@ -1,9 +1,9 @@
 Given(/^(\d+) players?$/) do |player_count|
-  @boards = [Catangerine::Board.new(player_count: player_count.to_i)]
+  @board_generators = [Catangerine::BoardGenerator.new(player_count: player_count.to_i)]
 end
 
 When(/^the boards? generates?$/) do
-  @boards.each(&:generate)
+  @boards = @board_generators.map { |board_generator| board_generator.generate }
 end
 
 Then(/^the board should have (standard|expanded) tiles$/) do |game_type|
@@ -23,8 +23,8 @@ Then(/^the board should have (standard|expanded) harbors$/) do |game_type|
 end
 
 Given(/^(\d+) boards$/) do |board_count|
-  @boards = board_count.to_i.times.map do |i|
-    Catangerine::Board.new
+  @board_generators = board_count.to_i.times.map do |i|
+    Catangerine::BoardGenerator.new
   end
 end
 
