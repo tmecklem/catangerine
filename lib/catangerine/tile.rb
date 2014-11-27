@@ -6,5 +6,9 @@ module Catangerine
       @resource_type = resource_type
       @chit_number = chit_number
     end
+
+    def to_s
+      "#{@resource_type.to_s} : #{@chit_number}"
+    end
   end
 end
