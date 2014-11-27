@@ -5,7 +5,7 @@ Feature: Board Generation
   Scenario Outline: Correct Distribution of Resources
 
     Given <number> players
-    When the board generates
+    When the game starts
     Then the board should have <game_type> tiles
     And the board should have <game_type> chits
     And the board should have <game_type> harbors
@@ -19,6 +19,6 @@ Feature: Board Generation
 
   Scenario: Random Generation
 
-    Given 2 boards
-    When the boards generate
+    Given 2 games
+    When the games start
     Then the boards should have different tile and chit layouts

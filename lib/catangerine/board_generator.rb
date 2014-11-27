@@ -2,14 +2,8 @@ require 'yaml'
 
 module Catangerine
   class BoardGenerator
-    DEFAULT_OPTIONS = {
-      player_count: 3
-    }
-
-    def initialize(opts = {})
-      @options = DEFAULT_OPTIONS.merge(opts)
-      configuration = Configuration.configuration(@options[:player_count] < 5 ? "standard" : "expanded")
-      @options = configuration.merge(@options)
+    def initialize(options)
+      @options = options
     end
 
     def generate
