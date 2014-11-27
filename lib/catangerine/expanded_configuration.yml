@@ -1,0 +1,28 @@
+:tile_counts:
+  :hills: 5
+  :pasture: 6
+  :mountains: 5
+  :fields: 6
+  :forest: 6
+  :desert: 2
+
+:chit_counts:
+  2: 2
+  3: 3
+  4: 3
+  5: 3
+  6: 3
+  8: 3
+  9: 3
+  10: 3
+  11: 3
+  12: 2
+
+:harbor_counts:
+  :brick: 1
+  :wool: 2
+  :ore: 1
+  :grain: 1
+  :lumber: 1
+  :generic: 5
+

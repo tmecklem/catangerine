@@ -1,24 +1,25 @@
 Given(/^(\d+) players?$/) do |player_count|
-  @boards = [Catangerine::Board.new(player_count: 3)]
+  @boards = [Catangerine::Board.new(player_count: player_count.to_i)]
 end
 
 When(/^the boards? generates?$/) do
   @boards.each(&:generate)
 end
 
-Then(/^the board should have (?:standard) tiles$/) do
+Then(/^the board should have (standard|expanded) tiles$/) do |game_type|
   tile_counts = Hash[ @boards.first.tile_layout.group_by { |tile| tile.resource_type }.map { |k, v| [k, v.size] } ]
-  expect(tile_counts).to eq Catangerine::Configuration.default_configuration[:tile_counts]
+  expect(tile_counts).to eq Catangerine::Configuration.configuration(game_type)[:tile_counts]
 end
 
-Then(/^the board should have (?:standard) chits$/) do
+Then(/^the board should have (standard|expanded) chits$/) do |game_type|
   chit_counts = Hash[ @boards.first.tile_layout.group_by { |tile| tile.chit_number }.map { |k, v| [k, v.size] } ]
-  expect(chit_counts).to eq Catangerine::Configuration.default_configuration[:chit_counts].merge({0=>1})
+  desert_tile_count = Catangerine::Configuration.configuration(game_type)[:tile_counts][:desert]
+  expect(chit_counts).to eq Catangerine::Configuration.configuration(game_type)[:chit_counts].merge({0=>desert_tile_count})
 end
 
-Then(/^the board should have (?:standard) harbors$/) do
+Then(/^the board should have (standard|expanded) harbors$/) do |game_type|
   harbor_counts = Hash[ @boards.first.harbor_layout.group_by { |harbor| harbor }.map { |k, v| [k, v.size] } ]
-  expect(harbor_counts).to eq Catangerine::Configuration.default_configuration[:harbor_counts]
+  expect(harbor_counts).to eq Catangerine::Configuration.configuration(game_type)[:harbor_counts]
 end
 
 Given(/^(\d+) boards$/) do |board_count|

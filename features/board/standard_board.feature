@@ -2,23 +2,20 @@ Feature: Board Generation
 
   Board generation should be accurate and random
 
-  Scenario: Correct Distribution of Tiles
+  Scenario Outline: Correct Distribution of Resources
 
-    Given 3 players
+    Given <number> players
     When the board generates
-    Then the board should have standard tiles
+    Then the board should have <game_type> tiles
+    And the board should have <game_type> chits
+    And the board should have <game_type> harbors
 
-  Scenario: Correct Distribution of Chits
-
-    Given 3 players
-    When the board generates
-    Then the board should have standard chits
-
-  Scenario: Correct Distribution of Harbors
-
-    Given 3 players
-    When the board generates
-    Then the board should have standard harbors
+    Examples:
+      | number | game_type |
+      | 3      | standard  |
+      | 4      | standard  |
+      | 5      | expanded  |
+      | 6      | expanded  |
 
   Scenario: Random Generation
 
