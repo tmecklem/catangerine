@@ -2,7 +2,7 @@ require 'yaml'
 
 module Catangerine
   class Board
-    attr_reader :tile_layout
+    attr_reader :tile_layout, :harbor_layout
 
     DEFAULT_OPTIONS = {
       player_count: 3
@@ -28,6 +28,13 @@ module Catangerine
         end
       end
       @tile_layout.shuffle!
+      @harbor_layout = []
+      @options[:harbor_counts].each do |type, count|
+        count.times do |i|
+          @harbor_layout << type
+        end
+      end
+      @harbor_layout.shuffle!
     end
   end
 end

@@ -16,6 +16,11 @@ Then(/^the board should have (?:standard) chits$/) do
   expect(chit_counts).to eq Catangerine::Configuration.default_configuration[:chit_counts].merge({0=>1})
 end
 
+Then(/^the board should have (?:standard) harbors$/) do
+  harbor_counts = Hash[ @boards.first.harbor_layout.group_by { |harbor| harbor }.map { |k, v| [k, v.size] } ]
+  expect(harbor_counts).to eq Catangerine::Configuration.default_configuration[:harbor_counts]
+end
+
 Given(/^(\d+) boards$/) do |board_count|
   @boards = board_count.to_i.times.map do |i|
     Catangerine::Board.new
