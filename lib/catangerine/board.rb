@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Catangerine
   class Board
     attr_reader :tile_layout
@@ -6,24 +8,23 @@ module Catangerine
       player_count: 3
     }
 
-    STANDARD_TILE_COUNTS = {
-      hills: 3,
-      pasture: 4,
-      mountains: 3,
-      fields: 4,
-      forest: 4,
-      desert: 1
-    }
-
     def initialize(opts = {})
-      options = DEFAULT_OPTIONS.merge(opts)
+      @options = DEFAULT_OPTIONS.merge(Configuration.default_configuration).merge(opts)
     end
 
     def generate
+      chits = []
+      @options[:chit_counts].each do |num, count|
+        count.times do |i|
+          chits << num
+        end
+      end
+      chits.shuffle!
       @tile_layout = []
-      STANDARD_TILE_COUNTS.each do |type, num|
-        num.times do |i|
-          @tile_layout << type
+      @options[:tile_counts].each do |type, count|
+        count.times do |i|
+          chit_number = type!=:desert ? chits.shift : 0
+          @tile_layout << Tile.new(type, chit_number)
         end
       end
       @tile_layout.shuffle!
