@@ -8,12 +8,11 @@ module Catangerine
 
     def initialize(opts = {})
       @options = DEFAULT_OPTIONS.merge(opts)
-      configuration = Configuration.configuration(@options[:player_count] < 5 ? "standard" : "expanded")
-      @options = configuration.merge(@options)
+      @options[:board] = BoardConfiguration.configuration(@options[:player_count] < 5 ? "standard" : "expanded")
     end
 
     def start_game
-      @board = BoardGenerator.new(@options).generate
+      @board = BoardGenerator.new(@options[:board]).generate
     end
   end
 end

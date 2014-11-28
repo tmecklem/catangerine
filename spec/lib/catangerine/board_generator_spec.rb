@@ -2,14 +2,14 @@ require 'spec_helper'
 
 module Catangerine
   describe BoardGenerator do
-    let!(:options) { Configuration.configuration(:standard) }
+    let!(:options) { BoardConfiguration.configuration(:standard) }
     subject { BoardGenerator.new(options) }
 
     context '#initialize' do
       it 'validates presence of required options' do
         required_fields = [:tile_counts, :chit_counts, :harbor_counts].shuffle
         required_fields.each do |required_field|
-          options = Configuration.configuration(:standard)
+          options = BoardConfiguration.configuration(:standard)
           options.delete(required_field)
           expect {
             BoardGenerator.new(options)
