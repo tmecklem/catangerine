@@ -2,8 +2,17 @@ require 'yaml'
 
 module Catangerine
   class BoardGenerator
-    def initialize(options)
-      @options = options
+    REQUIRED_OPTIONS = [:tile_counts, :chit_counts, :harbor_counts]
+
+    def initialize(opts)
+      BoardGenerator.validate_options(opts)
+      @options = opts
+    end
+
+    def self.validate_options(opts)
+      REQUIRED_OPTIONS.each do |required_option|
+        raise ArgumentError, "#{required_option.to_s} is a required option" unless opts.has_key?(required_option)
+      end
     end
 
     def generate
