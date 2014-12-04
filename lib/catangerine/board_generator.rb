@@ -16,21 +16,40 @@ module Catangerine
     end
 
     def generate
-      Board.new(generate_tiles, generate_harbors)
+      Board.new(layout_tiles(generate_tiles), generate_harbors)
     end
 
     private
 
+    def layout_tiles(tiles)
+      layout = SparseArray.new
+      hex = Hex.new(0,0)
+      layout.add(hex, tiles.shift)
+      scale = 0
+      until tiles.empty?
+        scale += 1
+        hex = hex.neighbor(4)
+        6.times do |i|
+          scale.times do
+            break if tiles.empty?
+            layout.add(hex, tiles.shift)
+            hex = hex.neighbor(i)
+          end
+        end
+      end
+      layout
+    end
+
     def generate_tiles
+      tiles = []
       chits = generate_chits
-      tile_layout = []
       @options[:tile_counts].each do |type, count|
         count.times do |i|
           chit_number = type!=:desert ? chits.shift : 0
-          tile_layout << Tile.new(type, chit_number)
+          tiles << Tile.new(resource_type: type, chit_number: chit_number)
         end
       end
-      tile_layout.shuffle!
+      tiles.shuffle!
     end
 
     def generate_chits

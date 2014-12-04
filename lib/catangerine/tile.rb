@@ -1,10 +1,10 @@
 module Catangerine
   class Tile
-    attr_reader :resource_type, :chit_number
+    attr_reader :location, :resource_type, :chit_number
 
-    def initialize(resource_type, chit_number)
-      @resource_type = resource_type
-      @chit_number = chit_number
+    def initialize(attrs)
+      @resource_type = attrs[:resource_type]
+      @chit_number = attrs[:chit_number]
     end
 
     def to_s
