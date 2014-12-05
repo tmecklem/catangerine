@@ -7,19 +7,19 @@ When(/^the games? starts?$/) do
 end
 
 Then(/^the board should have (standard|expanded) tiles$/) do |game_type|
-  tile_counts = Hash[ @boards.first.tile_layout.to_a.group_by { |tile| tile.resource_type }.map { |k, v| [k, v.size] } ]
+  tile_counts = Hash[ @boards.first.tiles.group_by { |tile| tile.resource_type }.map { |k, v| [k, v.size] } ]
   expect(tile_counts).to eq Catangerine::BoardConfiguration.configuration(game_type)[:tile_counts]
 end
 
 Then(/^the board should have (standard|expanded) chits$/) do |game_type|
-  chit_counts = Hash[ @boards.first.tile_layout.to_a.group_by { |tile| tile.chit_number }.map { |k, v| [k, v.size] } ]
+  chit_counts = Hash[ @boards.first.tiles.group_by { |tile| tile.chit_number }.map { |k, v| [k, v.size] } ]
   desert_tile_count = Catangerine::BoardConfiguration.configuration(game_type)[:tile_counts][:desert]
   expect(chit_counts).to eq Catangerine::BoardConfiguration.configuration(game_type)[:chit_counts].merge({0=>desert_tile_count})
 end
 
 Then(/^the board should have (standard|expanded) harbors$/) do |game_type|
-  harbor_counts = Hash[ @boards.first.harbor_layout.group_by { |harbor| harbor }.map { |k, v| [k, v.size] } ]
-  expect(harbor_counts).to eq Catangerine::BoardConfiguration.configuration(game_type)[:harbor_counts]
+  #harbor_counts = Hash[ @boards.first.harbor_layout.group_by { |harbor| harbor }.map { |k, v| [k, v.size] } ]
+  #expect(harbor_counts).to eq Catangerine::BoardConfiguration.configuration(game_type)[:harbor_counts]
 end
 
 Given(/^(\d+) games?$/) do |games_count|
@@ -29,6 +29,6 @@ Given(/^(\d+) games?$/) do |games_count|
 end
 
 Then(/^the boards should have different tile and chit layouts$/) do
-  tile_layouts = @boards.map(&:tile_layout)
-  expect(tile_layouts[0]).to_not eq tile_layouts[1]
+  tiles = @boards.map(&:tiles)
+  expect(tiles[0]).to_not eq tiles[1]
 end

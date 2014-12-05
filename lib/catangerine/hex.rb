@@ -1,24 +1,22 @@
 module Catangerine
   class Hex
-    attr_accessor :q, :r
+    attr_accessor :q, :r, :tile
 
-    def initialize(q, r)
+    def initialize(board, q, r, tile = nil)
+      @board = board
       @q = q
       @r = r
+      @tile = tile
     end
 
     NEIGHBORS = [
-      Hex.new(1, 0),
-      Hex.new(1, -1),
-      Hex.new(0, -1),
-      Hex.new(-1, 0),
-      Hex.new(-1, 1),
-      Hex.new(0, 1)
+      [ 1, 0], [ 1, -1], [0, -1],
+      [-1, 0], [-1,  1], [0,  1]
     ]
 
     def neighbor(direction)
       d = NEIGHBORS[direction]
-      Hex.new(q + d.q, r + d.r)
+      @board.hex_at(q + d[0], r + d[1])
     end
   end
 end

@@ -1,23 +1,17 @@
-require 'yaml'
-
 module Catangerine
   class Board
-    attr_reader :tile_layout, :harbor_layout
-
-    def initialize(tile_layout, harbor_layout)
-      @tile_layout = tile_layout
-      @harbor_layout = harbor_layout
+    def initialize
+      @game_grid = GameGrid.new
     end
 
-    def to_s
-      board_string = ""
-      @tile_layout.each do |tile|
-        board_string << "#{tile.to_s}\n"
-      end
-      @harbor_layout.each do |harbor|
-        board_string << "#{harbor.to_s}\n"
-      end
-      board_string
+    def hex_at(q, r)
+      @game_grid[q][r] ||= Hex.new(self, q, r)
+    end
+
+    def tiles
+      @game_grid.to_a.map do |hex|
+        hex.tile
+      end.compact
     end
   end
 end

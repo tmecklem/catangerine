@@ -16,15 +16,15 @@ module Catangerine
     end
 
     def generate
-      Board.new(layout_tiles(generate_tiles), generate_harbors)
+      board = Board.new
+      layout_tiles(board, generate_tiles)
     end
 
     private
 
-    def layout_tiles(tiles)
-      layout = GameGrid.new
-      hex = Hex.new(0,0)
-      layout.add(hex, tiles.shift)
+    def layout_tiles(board, tiles)
+      hex = board.hex_at(0,0)
+      hex.tile = tiles.shift
       scale = 0
       until tiles.empty?
         scale += 1
@@ -32,12 +32,12 @@ module Catangerine
         6.times do |i|
           scale.times do
             break if tiles.empty?
-            layout.add(hex, tiles.shift)
+            hex.tile = tiles.shift
             hex = hex.neighbor(i)
           end
         end
       end
-      layout
+      board
     end
 
     def generate_tiles

@@ -10,8 +10,8 @@ module Catangerine
       hash[key] ||= {}
     end
 
-    def add(hex, obj)
-      self[hex.q][hex.r] = obj
+    def add(hex)
+      self[hex.q][hex.r] = hex
     end
 
     def rows
