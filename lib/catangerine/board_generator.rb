@@ -2,7 +2,7 @@ require 'yaml'
 
 module Catangerine
   class BoardGenerator
-    REQUIRED_OPTIONS = [:tile_counts, :chit_counts, :harbor_counts]
+    REQUIRED_OPTIONS = [:tile_counts, :chit_counts, :harbor_counts, :harbor_locations]
 
     def initialize(opts)
       BoardGenerator.validate_options(opts)
@@ -18,13 +18,15 @@ module Catangerine
     def generate
       board = Board.new
       layout_tiles(board, generate_tiles)
+      layout_harbors(board, generate_harbors)
+      board
     end
 
     private
 
     def layout_tiles(board, tiles)
       hex = board.hex_at(0,0)
-      hex.tile = tiles.shift
+      hex.face = tiles.shift
       scale = 0
       until tiles.empty?
         scale += 1
@@ -32,7 +34,7 @@ module Catangerine
         6.times do |i|
           scale.times do
             break if tiles.empty?
-            hex.tile = tiles.shift
+            hex.face = tiles.shift
             hex = hex.neighbor(i)
           end
         end
@@ -60,6 +62,16 @@ module Catangerine
         end
       end
       chits.shuffle!
+    end
+
+    def layout_harbors(board, harbors)
+      @options[:harbor_locations].zip(harbors).each do |locations, harbor_type|
+        harbor = Harbor.new(harbor_type)
+        locations.each do |location|
+          hex = board.hex_at(*location[0..1])
+          hex.vertices[location[2]] = harbor
+        end
+      end
     end
 
     def generate_harbors

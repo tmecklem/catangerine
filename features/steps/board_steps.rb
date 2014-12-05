@@ -18,8 +18,8 @@ Then(/^the board should have (standard|expanded) chits$/) do |game_type|
 end
 
 Then(/^the board should have (standard|expanded) harbors$/) do |game_type|
-  #harbor_counts = Hash[ @boards.first.harbor_layout.group_by { |harbor| harbor }.map { |k, v| [k, v.size] } ]
-  #expect(harbor_counts).to eq Catangerine::BoardConfiguration.configuration(game_type)[:harbor_counts]
+  harbor_counts = Hash[ @boards.first.harbors.map(&:harbor_type).group_by { |harbor| harbor }.map { |k, v| [k, v.size] } ]
+  expect(harbor_counts).to eq Catangerine::BoardConfiguration.configuration(game_type)[:harbor_counts]
 end
 
 Given(/^(\d+) games?$/) do |games_count|

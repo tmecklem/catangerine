@@ -9,9 +9,13 @@ module Catangerine
     end
 
     def tiles
-      @game_grid.to_a.map do |hex|
-        hex.tile
-      end.compact
+      @game_grid.to_a.map(&:face).compact
+    end
+
+    def harbors
+      @game_grid.to_a.map(&:vertices).each_with_object([]) do |vertices, acc|
+        acc.concat(vertices.values)
+      end.compact.uniq
     end
   end
 end

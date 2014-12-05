@@ -1,12 +1,14 @@
 module Catangerine
   class Hex
-    attr_accessor :q, :r, :tile
+    attr_accessor :q, :r, :face, :edges, :vertices
 
-    def initialize(board, q, r, tile = nil)
+    def initialize(board, q, r, face = nil)
       @board = board
       @q = q
       @r = r
-      @tile = tile
+      @face = face
+      @edges = {}
+      @vertices = {}
     end
 
     NEIGHBORS = [
