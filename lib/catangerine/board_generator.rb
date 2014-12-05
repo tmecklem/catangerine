@@ -22,7 +22,7 @@ module Catangerine
     private
 
     def layout_tiles(tiles)
-      layout = SparseArray.new
+      layout = GameGrid.new
       hex = Hex.new(0,0)
       layout.add(hex, tiles.shift)
       scale = 0

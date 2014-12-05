@@ -1,5 +1,5 @@
 module Catangerine
-  class SparseArray
+  class GameGrid
     attr_reader :hash
 
     def initialize
@@ -11,7 +11,6 @@ module Catangerine
     end
 
     def add(hex, obj)
-      hex = hex.to_hex
       self[hex.q][hex.r] = obj
     end
 

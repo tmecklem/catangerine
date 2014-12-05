@@ -16,17 +16,9 @@ module Catangerine
       Hex.new(0, 1)
     ]
 
-    def to_cube
-      Cube.new(q, -q-r, r)
-    end
-
     def neighbor(direction)
       d = NEIGHBORS[direction]
       Hex.new(q + d.q, r + d.r)
-    end
-
-    def to_hex
-      self
     end
   end
 end
