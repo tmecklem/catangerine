@@ -7,6 +7,7 @@ require 'catangerine/board_generator'
 require 'catangerine/tile'
 require 'catangerine/harbor'
 require 'catangerine/settlement'
+require 'catangerine/road'
 require 'catangerine/game_manager'
 require 'catangerine/commands'
 

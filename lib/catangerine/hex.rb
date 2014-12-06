@@ -1,6 +1,7 @@
 module Catangerine
   class Hex
-    attr_accessor :q, :r, :face, :edges, :vertices
+    attr_accessor :face
+    attr_reader :q, :r, :edges, :vertices
 
     def initialize(board, q, r, face = nil)
       @board = board

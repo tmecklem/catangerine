@@ -5,9 +5,9 @@ module Catangerine
 
       def initialize(player, q, r, v)
         @player = player
-        @q = q
-        @r = r
-        @v = v
+        @q = q.to_i
+        @r = r.to_i
+        @v = v.to_sym
       end
 
       def execute(game_manager)

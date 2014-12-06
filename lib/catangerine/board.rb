@@ -15,6 +15,10 @@ module Catangerine
       hex_at(q,r).vertices[v] = obj
     end
 
+    def add_edge_object(q, r, e, obj)
+      hex_at(q,r).edges[e] = obj
+    end
+
     def tiles
       @game_grid.to_a.map(&:face).compact
     end
