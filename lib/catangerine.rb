@@ -6,7 +6,9 @@ require 'catangerine/board'
 require 'catangerine/board_generator'
 require 'catangerine/tile'
 require 'catangerine/harbor'
+require 'catangerine/settlement'
 require 'catangerine/game_manager'
+require 'catangerine/commands'
 
 module Catangerine
 end
