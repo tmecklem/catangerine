@@ -1,3 +1,14 @@
+include BoardHarness
+include BoardConfigurationHarness
+
+def board
+  @boards.first
+end
+
+def game_manager
+  @game_managers.first
+end
+
 Given(/^(\d+) players?$/) do |player_count|
   @game_managers = [Catangerine::GameManager.new(player_count: player_count.to_i)]
 end
@@ -7,19 +18,17 @@ When(/^the games? starts?$/) do
 end
 
 Then(/^the board should have (standard|expanded) tiles$/) do |game_type|
-  tile_counts = Hash[ @boards.first.tiles.group_by { |tile| tile.resource_type }.map { |k, v| [k, v.size] } ]
-  expect(tile_counts).to eq Catangerine::BoardConfiguration.configuration(game_type)[:tile_counts]
+  expect(tile_counts(board)).to eq configuration(game_type)[:tile_counts]
 end
 
 Then(/^the board should have (standard|expanded) chits$/) do |game_type|
-  chit_counts = Hash[ @boards.first.tiles.group_by { |tile| tile.chit_number }.map { |k, v| [k, v.size] } ]
-  desert_tile_count = Catangerine::BoardConfiguration.configuration(game_type)[:tile_counts][:desert]
-  expect(chit_counts).to eq Catangerine::BoardConfiguration.configuration(game_type)[:chit_counts].merge({0=>desert_tile_count})
+  expected_desert_tile_count = configuration(game_type)[:tile_counts][:desert]
+  expected_chit_counts = configuration(game_type)[:chit_counts].merge({0=>expected_desert_tile_count})
+  expect(chit_counts(board)).to eq expected_chit_counts
 end
 
 Then(/^the board should have (standard|expanded) harbors$/) do |game_type|
-  harbor_counts = Hash[ @boards.first.harbors.map(&:harbor_type).group_by { |harbor| harbor }.map { |k, v| [k, v.size] } ]
-  expect(harbor_counts).to eq Catangerine::BoardConfiguration.configuration(game_type)[:harbor_counts]
+  expect(harbor_counts(board)).to eq configuration(game_type)[:harbor_counts]
 end
 
 Given(/^(\d+) games?$/) do |games_count|
@@ -31,4 +40,8 @@ end
 Then(/^the boards should have different tile and chit layouts$/) do
   tiles = @boards.map(&:tiles)
   expect(tiles[0]).to_not eq tiles[1]
+end
+
+Then(/^the board should be in (.*?) state$/) do |state|
+  expect(board.state).to eq state.to_sym
 end

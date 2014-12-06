@@ -1,7 +1,10 @@
 module Catangerine
   class Board
+    attr_reader :state
+
     def initialize
       @game_grid = GameGrid.new
+      @state = :set_up
     end
 
     def hex_at(q, r)

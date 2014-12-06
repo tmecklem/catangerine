@@ -1,4 +1,6 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../lib')
+$LOAD_PATH.unshift(__dir__ + '/../../lib')
+$LOAD_PATH.unshift(__dir__ + '/harnesses')
 
 require 'pry'
 require 'catangerine'
+

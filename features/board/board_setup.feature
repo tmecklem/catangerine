@@ -22,3 +22,9 @@ Feature: Board Generation
     Given 2 games
     When the games start
     Then the boards should have different tile and chit layouts
+
+  Scenario: Game State
+
+    Given 1 game
+    When the game starts
+    Then the board should be in set_up state
