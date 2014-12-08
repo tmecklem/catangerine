@@ -1,4 +1,4 @@
-module BoardHarness
+module KnowsAboutBoard
   def tile_counts(board)
     Hash[ board.tiles.group_by(&:resource_type).map { |k, v| [k, v.size] } ]
   end
@@ -11,3 +11,5 @@ module BoardHarness
     Hash[ board.harbors.map(&:harbor_type).group_by(&:to_sym).map { |k, v| [k, v.size] } ]
   end
 end
+
+World(KnowsAboutBoard)

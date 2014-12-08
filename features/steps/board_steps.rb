@@ -1,7 +1,3 @@
-include GameManagerHarness
-include BoardHarness
-include BoardConfigurationHarness
-
 Given(/^(\d+) players?$/) do |player_count|
   @game_managers = [Catangerine::GameManager.new(player_count: player_count.to_i)]
 end
