@@ -30,12 +30,12 @@ module Catangerine
       scale = 0
       until tiles.empty?
         scale += 1
-        hex = hex.neighbor(4)
-        6.times do |i|
+        hex = hex.neighbor(:nw)
+        Hex::NEIGHBORS.keys.each do |direction|
           scale.times do
             break if tiles.empty?
             hex.face = tiles.shift
-            hex = hex.neighbor(i)
+            hex = hex.neighbor(direction)
           end
         end
       end
@@ -68,8 +68,7 @@ module Catangerine
       @options[:harbor_locations].zip(harbors).each do |locations, harbor_type|
         harbor = Harbor.new(harbor_type)
         locations.each do |location|
-          hex = board.hex_at(*location[0..1])
-          hex.vertices[location[2]] = harbor
+          board.add_vertex_object(location[0], location[1], location[2], harbor)
         end
       end
     end

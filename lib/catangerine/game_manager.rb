@@ -4,7 +4,7 @@ module Catangerine
       player_count: 3
     }
 
-    attr_reader :board, :players, :current_player
+    attr_reader :board, :players, :current_player, :round
 
     def initialize(opts = {})
       @options = DEFAULT_OPTIONS.merge(opts)
@@ -17,6 +17,7 @@ module Catangerine
     def start_game
       @board = BoardGenerator.new(@options[:board]).generate
       @current_player = @players.first
+      @round = 1
     end
 
     def play(command)
@@ -27,16 +28,17 @@ module Catangerine
       command
     end
 
+    def end_turn
+      @current_player = players[(players.index(current_player) + 1) % players.size]
+      @round += 1 if current_player == players.first
+    end
+
     private
 
     def create_players(player_count)
       @players = player_count.times.map do |player|
-        player + 1
+        Player.new
       end
-    end
-
-    def end_turn
-      @current_player = players[(players.index(@current_player) + 1) % players.size]
     end
   end
 end

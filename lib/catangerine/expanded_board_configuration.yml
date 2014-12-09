@@ -27,7 +27,8 @@
   :generic: 5
 
 :harbor_locations:
-- - - -8
+- - - -4
+    - 4
     - :t
   - - -3
     - 3

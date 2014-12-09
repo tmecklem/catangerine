@@ -9,17 +9,27 @@ module Catangerine
       @r = r
       @face = face
       @edges = {}
-      @vertices = {}
+      @vertices = {
+        t: Vertex.new(self, :t),
+        b: Vertex.new(self, :b)
+      }
     end
 
-    NEIGHBORS = [
-      [ 1, 0], [ 1, -1], [0, -1],
-      [-1, 0], [-1,  1], [0,  1]
-    ]
+    NEIGHBORS = {
+      sw: [-1, 1], se: [ 0, 1], e: [ 1, 0],
+      ne: [ 1,-1], nw: [ 0,-1], w: [-1, 0]
+    }
 
     def neighbor(direction)
       d = NEIGHBORS[direction]
       @board.hex_at(q + d[0], r + d[1])
+    end
+
+    def to_s
+      str = "[#{q},#{r}]\n"
+      vertices.each do |direction, v|
+        str << "direction: #{v}\n"
+      end
     end
   end
 end

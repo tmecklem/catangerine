@@ -12,7 +12,7 @@ module Catangerine
     end
 
     def add_vertex_object(q, r, v, obj)
-      hex_at(q,r).vertices[v] = obj
+      hex_at(q,r).vertices[v].object = obj
     end
 
     def add_edge_object(q, r, e, obj)
@@ -25,7 +25,7 @@ module Catangerine
 
     def harbors
       @game_grid.to_a.map(&:vertices).each_with_object([]) do |vertices, acc|
-        acc.concat(vertices.values)
+        acc.concat(vertices.values.map(&:object))
       end.compact.uniq
     end
   end

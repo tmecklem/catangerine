@@ -4,11 +4,11 @@ Feature: Board Generation
 
   Scenario Outline: Correct Distribution of Resources
 
-    Given <number> players
-    When the game starts
+    Given a <number> player game at the start of round 1
     Then the board should have <game_type> tiles
     And the board should have <game_type> chits
     And the board should have <game_type> harbors
+    And the board should be in set_up state
 
     Examples:
       | number | game_type |
@@ -16,15 +16,3 @@ Feature: Board Generation
       | 4      | standard  |
       | 5      | expanded  |
       | 6      | expanded  |
-
-  Scenario: Random Generation
-
-    Given 2 games
-    When the games start
-    Then the boards should have different tile and chit layouts
-
-  Scenario: Game State
-
-    Given 1 game
-    When the game starts
-    Then the board should be in set_up state
