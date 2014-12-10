@@ -11,12 +11,20 @@ module Catangerine
       @game_grid[q][r] ||= Hex.new(self, q, r)
     end
 
+    def vertex_at(q, r, v)
+      hex_at(q,r).vertices[v.to_sym]
+    end
+
     def add_vertex_object(q, r, v, obj)
-      hex_at(q,r).vertices[v].object = obj
+      vertex_at(q, r, v).object = obj
+    end
+
+    def edge_at(q, r, e)
+      hex_at(q,r).edges[e.to_sym]
     end
 
     def add_edge_object(q, r, e, obj)
-      hex_at(q,r).edges[e] = obj
+      edge_at(q, r, e).object = obj
     end
 
     def tiles

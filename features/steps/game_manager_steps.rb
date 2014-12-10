@@ -13,9 +13,9 @@ When(/^I place a settlement at (#{VERTEX}) and a road at (#{EDGE})$/) do |vertex
 end
 
 Then(/^the board should contain a settlement at (#{VERTEX})$/) do |vertex|
-  expect(game_manager.board.hex_at(vertex[0], vertex[1]).vertices[vertex[2]].object.player).to eq(@current_player)
+  expect(game_manager.board.vertex_at(*vertex).object.player).to eq(@current_player)
 end
 
 Then(/^the board should contain a road at (#{EDGE})$/) do |edge|
-  expect(game_manager.board.hex_at(edge[0], edge[1]).edges[edge[2]].player).to eq(@current_player)
+  expect(game_manager.board.edge_at(*edge).object.player).to eq(@current_player)
 end

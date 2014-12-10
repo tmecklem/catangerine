@@ -8,7 +8,11 @@ module Catangerine
       @q = q
       @r = r
       @face = face
-      @edges = {}
+      @edges = {
+        sw: Edge.new(self, :sw),
+        nw: Edge.new(self, :nw),
+        w: Edge.new(self, :w)
+      }
       @vertices = {
         t: Vertex.new(self, :t),
         b: Vertex.new(self, :b)
