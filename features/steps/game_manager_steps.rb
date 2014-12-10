@@ -1,7 +1,3 @@
-VERTEX = EDGE = Transform /^(\-?\d+),(\-?\d+),(\w+)$/ do |q, r, v|
-  [q.to_i, r.to_i, v.to_sym]
-end
-
 Then(/^it should be player (\d+)'s turn$/) do |player_number|
   expect(game_manager.current_player).to eq game_manager.players[player_number.to_i - 1]
 end
@@ -12,10 +8,14 @@ When(/^I place a settlement at (#{VERTEX}) and a road at (#{EDGE})$/) do |vertex
   expect(@command.success).to be_truthy
 end
 
-Then(/^the board should contain a settlement at (#{VERTEX})$/) do |vertex|
-  expect(game_manager.board.vertex_at(*vertex).object.player).to eq(@current_player)
-end
-
-Then(/^the board should contain a road at (#{EDGE})$/) do |edge|
-  expect(game_manager.board.edge_at(*edge).object.player).to eq(@current_player)
+Then(/^I should receive resource cards from the following tiles:$/) do |table|
+  player = game_manager.players.first
+  expected_resource_cards = {}
+  table.hashes.each do |row|
+    coords = row['tile'].split(',')
+    tile = board.hex_at(coords[0].to_i, coords[1].to_i).face
+    expected_resource_cards[tile.resource_type] ||= 0
+    expected_resource_cards[tile.resource_type] += 1
+  end
+  expect(player.resource_cards).to eq expected_resource_cards
 end
