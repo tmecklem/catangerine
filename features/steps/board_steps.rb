@@ -43,3 +43,11 @@ Given(/^the board has the following settlements:$/) do |settlements|
     board.add_vertex_object(*coords, settlement)
   end
 end
+
+Given(/^the board has the following roads:$/) do |roads|
+  roads.hashes.each do |row|
+    coords = coords_to_a(row['location'])
+    road = Catangerine::Road.new(game_manager.players[row['player'].to_i])
+    board.add_edge_object(*coords, road)
+  end
+end

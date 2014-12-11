@@ -5,11 +5,15 @@ end
 When(/^I place a settlement at (#{VERTEX}) and a road at (#{EDGE})$/) do |vertex, edge|
   @command = Catangerine::Commands::AddSettlementAndRoad.new(@current_player, *vertex, *edge)
   game_manager.play(@command)
-  expect(@command.success).to be_truthy
 end
 
 When(/^I (?:try to )?place a settlement at (#{VERTEX})$/) do |vertex|
   @command = Catangerine::Commands::AddSettlement.new(@current_player, *vertex)
+  game_manager.play(@command)
+end
+
+When(/^I (?:try to )?place a road at (#{EDGE})$/) do |edge|
+  @command = Catangerine::Commands::AddRoad.new(@current_player, *edge)
   game_manager.play(@command)
 end
 

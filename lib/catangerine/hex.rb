@@ -3,11 +3,10 @@ module Catangerine
     attr_accessor :face
     attr_reader :q, :r, :edges, :vertices
 
-    def initialize(board, q, r, face = nil)
+    def initialize(board, q, r)
       @board = board
       @q = q
       @r = r
-      @face = face
       @edges = {
         sw: Edge.new(self, :sw),
         nw: Edge.new(self, :nw),

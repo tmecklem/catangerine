@@ -27,7 +27,10 @@ module Catangerine
     end
 
     def add_edge_object(q, r, e, obj)
-      edge_at(q, r, e).object = obj
+      edge = edge_at(q, r, e)
+      return false unless edge.object.nil?
+      edge.object = obj
+      true
     end
 
     def tiles

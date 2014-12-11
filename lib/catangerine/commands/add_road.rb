@@ -3,17 +3,14 @@ module Catangerine
     class AddRoad
       attr_accessor :success
 
-      def initialize(player, q, r, e)
+      def initialize(player, *coords)
         @player = player
-        @q = q.to_i
-        @r = r.to_i
-        @e = e.to_sym
+        @coords = coords
       end
 
       def execute(game_manager)
         road = Catangerine::Road.new(@player)
-        game_manager.board.add_edge_object(@q,@r,@e, road)
-        @success = true
+        @success = game_manager.board.add_edge_object(*@coords, road)
       end
     end
   end
