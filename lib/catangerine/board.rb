@@ -16,7 +16,10 @@ module Catangerine
     end
 
     def add_vertex_object(q, r, v, obj)
-      vertex_at(q, r, v).object = obj
+      vertex = vertex_at(q, r, v)
+      return false unless vertex.object.nil?
+      vertex.object = obj
+      true
     end
 
     def edge_at(q, r, e)

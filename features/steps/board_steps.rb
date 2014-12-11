@@ -35,3 +35,11 @@ end
 Then(/^the board should contain a road at (#{EDGE})$/) do |edge|
   expect(game_manager.board.edge_at(*edge).object.player).to eq(@current_player)
 end
+
+Given(/^the board has the following settlements:$/) do |settlements|
+  settlements.hashes.each do |row|
+    coords = coords_to_a(row['location'])
+    settlement = Catangerine::Settlement.new(game_manager.players[row['player'].to_i])
+    board.add_vertex_object(*coords, settlement)
+  end
+end
