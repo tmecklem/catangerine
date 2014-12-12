@@ -1,16 +1,16 @@
 module Catangerine
   module Commands
     class AddSettlement
-      attr_reader :success
+      attr_reader :success, :settlement
 
-      def initialize(player, *coords)
+      def initialize(player, *location)
         @player = player
-        @coords = coords
+        @location = location
       end
 
       def execute(game_manager)
-        settlement = Catangerine::Settlement.new(@player)
-        @success = game_manager.board.add_vertex_object(*@coords, settlement)
+        @settlement = Catangerine::Settlement.new(@player)
+        @success = game_manager.board.add_settlement(@settlement, *@location)
       end
     end
   end

@@ -9,12 +9,6 @@ module Catangerine
       @options = opts
     end
 
-    def self.validate_options(opts)
-      REQUIRED_OPTIONS.each do |required_option|
-        raise ArgumentError, "#{required_option.to_s} is a required option" unless opts.has_key?(required_option)
-      end
-    end
-
     def generate
       board = Board.new
       layout_tiles(board, generate_tiles)
@@ -23,6 +17,12 @@ module Catangerine
     end
 
     private
+
+    def self.validate_options(opts)
+      REQUIRED_OPTIONS.each do |required_option|
+        raise ArgumentError, "#{required_option.to_s} is a required option" unless opts.has_key?(required_option)
+      end
+    end
 
     def layout_tiles(board, tiles)
       hex = board.hex_at(0,0)
@@ -68,7 +68,7 @@ module Catangerine
       @options[:harbor_locations].zip(harbors).each do |locations, harbor_type|
         harbor = Harbor.new(harbor_type)
         locations.each do |location|
-          board.add_vertex_object(location[0], location[1], location[2], harbor)
+          board.add_harbor(harbor, *location)
         end
       end
     end

@@ -10,7 +10,7 @@ module Catangerine
 
       def execute(game_manager)
         road = Catangerine::Road.new(@player)
-        @success = game_manager.board.add_edge_object(*@coords, road)
+        @success = game_manager.board.add_road(road, *@coords)
       end
     end
   end

@@ -1,5 +1,6 @@
 module Catangerine
   class Board
+    include ContainsHexGrid
     attr_reader :state
 
     def initialize
@@ -7,29 +8,29 @@ module Catangerine
       @state = :set_up
     end
 
-    def hex_at(q, r)
-      @game_grid[q][r] ||= Hex.new(self, q, r)
+    def settlement_at(*location)
+      vertex_at(*location).object
     end
 
-    def vertex_at(q, r, v)
-      hex_at(q,r).vertices[v.to_sym]
-    end
-
-    def add_vertex_object(q, r, v, obj)
-      vertex = vertex_at(q, r, v)
+    def add_settlement(settlement, *location)
+      vertex = vertex_at(*location)
       return false unless vertex.object.nil?
-      vertex.object = obj
+      set_vertex_object(settlement, *location)
       true
     end
 
-    def edge_at(q, r, e)
-      hex_at(q,r).edges[e.to_sym]
+    def add_harbor(harbor, *location)
+      add_settlement(harbor, *location)
     end
 
-    def add_edge_object(q, r, e, obj)
-      edge = edge_at(q, r, e)
+    def road_at(*location)
+      edge_at(*location).object
+    end
+
+    def add_road(road, *location)
+      edge = edge_at(*location)
       return false unless edge.object.nil?
-      edge.object = obj
+      set_edge_object(road, *location)
       true
     end
 
@@ -41,6 +42,12 @@ module Catangerine
       @game_grid.to_a.map(&:vertices).each_with_object([]) do |vertices, acc|
         acc.concat(vertices.values.map(&:object))
       end.compact.uniq
+    end
+
+    protected
+
+    def game_grid
+      @game_grid
     end
   end
 end

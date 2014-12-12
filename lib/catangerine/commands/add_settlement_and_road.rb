@@ -17,10 +17,9 @@ module Catangerine
       end
 
       def resource_me(game_manager)
-        vertex = game_manager.board.vertex_at(*@vertex_position)
-        vertex.touching_hexes.each do |hex|
-          @player.resource_cards[hex.face.resource_type] ||= 0
-          @player.resource_cards[hex.face.resource_type] += 1
+        @add_settlement.settlement.touching_tiles.each do |tile|
+          @player.resource_cards[tile.resource_type] ||= 0
+          @player.resource_cards[tile.resource_type] += 1
         end
       end
     end

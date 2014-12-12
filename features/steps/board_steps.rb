@@ -29,18 +29,18 @@ Then(/^the board should be in (.*?) state$/) do |state|
 end
 
 Then(/^the board should contain a settlement at (#{VERTEX})$/) do |vertex|
-  expect(game_manager.board.vertex_at(*vertex).object.player).to eq(@current_player)
+  expect(game_manager.board.settlement_at(*vertex).player).to eq(@current_player)
 end
 
 Then(/^the board should contain a road at (#{EDGE})$/) do |edge|
-  expect(game_manager.board.edge_at(*edge).object.player).to eq(@current_player)
+  expect(game_manager.board.road_at(*edge).player).to eq(@current_player)
 end
 
 Given(/^the board has the following settlements:$/) do |settlements|
   settlements.hashes.each do |row|
     coords = coords_to_a(row['location'])
     settlement = Catangerine::Settlement.new(game_manager.players[row['player'].to_i])
-    board.add_vertex_object(*coords, settlement)
+    board.add_settlement(settlement, *coords)
   end
 end
 
@@ -48,6 +48,6 @@ Given(/^the board has the following roads:$/) do |roads|
   roads.hashes.each do |row|
     coords = coords_to_a(row['location'])
     road = Catangerine::Road.new(game_manager.players[row['player'].to_i])
-    board.add_edge_object(*coords, road)
+    board.add_road(road, *coords)
   end
 end
