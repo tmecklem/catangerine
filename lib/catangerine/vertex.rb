@@ -1,11 +1,11 @@
 module Catangerine
   class Vertex
-    attr_reader :direction
-    attr_accessor :object
+    attr_reader :direction, :attributes
 
     def initialize(hex, direction)
       @hex = hex
       @direction = direction
+      @attributes = {}
     end
 
     def touching_hexes

@@ -12,7 +12,7 @@ module Catangerine
 
     def set_vertex_object(object, *location)
       vertex = vertex_at(*location)
-      vertex.object = object
+      vertex.attributes[object.object_type] = object
       object.position = vertex
     end
 
