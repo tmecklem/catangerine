@@ -12,7 +12,11 @@ module Catangerine
     end
 
     def touching_tiles
-      position.touching_hexes.map(&:face)
+      position.touching_hexes.map(&:face).compact
+    end
+
+    def self.adjacent_settlements(vertex)
+      vertex.adjacent_vertices.map { |vertex| vertex.attributes[:settlement] }.compact
     end
   end
 end

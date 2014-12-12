@@ -15,6 +15,7 @@ module Catangerine
     def add_settlement(settlement, *location)
       vertex = vertex_at(*location)
       return false unless vertex.attributes[settlement.object_type].nil?
+      return false unless Settlement.adjacent_settlements(vertex).all?(&:nil?)
       set_vertex_object(settlement, *location)
       true
     end
