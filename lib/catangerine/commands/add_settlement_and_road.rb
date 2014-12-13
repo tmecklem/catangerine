@@ -3,11 +3,11 @@ module Catangerine
     class AddSettlementAndRoad
       attr_reader :success
 
-      def initialize(player, q0, r0, v, q1, r1, e)
-        @vertex_position = [q0, r0, v]
+      def initialize(player, settlement_location, road_location)
+        @settlement_location = settlement_location
         @player = player
-        @add_settlement = AddSettlement.new(player, q0, r0, v)
-        @add_road = AddRoad.new(player, q1, r1, e)
+        @add_settlement = AddSettlement.new(player, settlement_location)
+        @add_road = AddRoad.new(player, road_location)
       end
 
       def execute(game_manager)

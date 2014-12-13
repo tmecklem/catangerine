@@ -25,7 +25,7 @@ module Catangerine
     end
 
     def layout_tiles(board, tiles)
-      hex = board.hex_at(0,0)
+      hex = board.hex_at(Location.new(0,0))
       hex.face = tiles.shift
       scale = 0
       until tiles.empty?
@@ -68,7 +68,7 @@ module Catangerine
       @options[:harbor_locations].zip(harbors).each do |locations, harbor_type|
         harbor = Harbor.new(harbor_type)
         locations.each do |location|
-          board.add_harbor(harbor, *location)
+          board.add_harbor(harbor, Location.new(*location))
         end
       end
     end

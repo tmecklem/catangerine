@@ -25,8 +25,8 @@ Then(/^I should receive resource cards from the following tiles:$/) do |table|
   player = game_manager.players.first
   expected_resource_cards = {}
   table.hashes.each do |row|
-    coords = coords_to_a(row['tile'])
-    tile = board.hex_at(*coords).face
+    location = Catangerine::Location.new(row['tile'])
+    tile = board.hex_at(location).face
     expected_resource_cards[tile.resource_type] ||= 0
     expected_resource_cards[tile.resource_type] += 1
   end

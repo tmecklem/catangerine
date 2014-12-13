@@ -1,27 +1,27 @@
 module Catangerine
   module ContainsHexGrid
-    def hex_at(q, r)
-      game_grid[q][r] ||= Hex.new(self, q, r)
+    def hex_at(location)
+      game_grid[location.q][location.r] ||= Hex.new(self, location)
     end
 
     protected
 
-    def vertex_at(q, r, v)
-      hex_at(q,r).vertices[v.to_sym]
+    def vertex_at(location)
+      hex_at(location).vertices[location.direction]
     end
 
-    def set_vertex_object(object, *location)
-      vertex = vertex_at(*location)
+    def set_vertex_object(object, location)
+      vertex = vertex_at(location)
       vertex.attributes[object.object_type] = object
       object.position = vertex
     end
 
-    def edge_at(q, r, e)
-      hex_at(q,r).edges[e.to_sym]
+    def edge_at(location)
+      hex_at(location).edges[location.direction]
     end
 
-    def set_edge_object(obj, *location)
-      edge_at(*location).object = obj
+    def set_edge_object(obj, location)
+      edge_at(location).object = obj
     end
 
     def game_grid

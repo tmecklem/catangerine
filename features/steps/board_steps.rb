@@ -38,16 +38,16 @@ end
 
 Given(/^the board has the following settlements:$/) do |settlements|
   settlements.hashes.each do |row|
-    coords = coords_to_a(row['location'])
+    location = Catangerine::Location.new(*(row['location'].split(',')))
     settlement = Catangerine::Settlement.new(game_manager.players[row['player'].to_i])
-    board.add_settlement(settlement, *coords)
+    board.add_settlement(settlement, location)
   end
 end
 
 Given(/^the board has the following roads:$/) do |roads|
   roads.hashes.each do |row|
-    coords = coords_to_a(row['location'])
+    location = Catangerine::Location.new(*(row['location'].split(',')))
     road = Catangerine::Road.new(game_manager.players[row['player'].to_i])
-    board.add_road(road, *coords)
+    board.add_road(road, location)
   end
 end

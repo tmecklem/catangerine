@@ -8,33 +8,33 @@ module Catangerine
       @state = :set_up
     end
 
-    def settlement_at(*location)
-      vertex_at(*location).attributes[:settlement]
+    def settlement_at(location)
+      vertex_at(location).attributes[:settlement]
     end
 
-    def add_settlement(settlement, *location)
-      vertex = vertex_at(*location)
+    def add_settlement(settlement, location)
+      vertex = vertex_at(location)
       return false unless vertex.attributes[settlement.object_type].nil?
       return false unless Settlement.adjacent_settlements(vertex).all?(&:nil?)
-      set_vertex_object(settlement, *location)
+      set_vertex_object(settlement, location)
       true
     end
 
-    def add_harbor(harbor, *location)
-      vertex = vertex_at(*location)
+    def add_harbor(harbor, location)
+      vertex = vertex_at(location)
       return false unless vertex.attributes[harbor.object_type].nil?
-      set_vertex_object(harbor, *location)
+      set_vertex_object(harbor, location)
       true
     end
 
-    def road_at(*location)
-      edge_at(*location).object
+    def road_at(location)
+      edge_at(location).object
     end
 
-    def add_road(road, *location)
-      edge = edge_at(*location)
+    def add_road(road, location)
+      edge = edge_at(location)
       return false unless edge.object.nil?
-      set_edge_object(road, *location)
+      set_edge_object(road, location)
       true
     end
 

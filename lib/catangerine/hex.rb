@@ -1,12 +1,11 @@
 module Catangerine
   class Hex
     attr_accessor :face
-    attr_reader :q, :r, :edges, :vertices
+    attr_reader :location, :edges, :vertices
 
-    def initialize(board, q, r)
+    def initialize(board, location)
       @board = board
-      @q = q
-      @r = r
+      @location = location
       @edges = {
         sw: Edge.new(self, :sw),
         nw: Edge.new(self, :nw),
@@ -25,14 +24,7 @@ module Catangerine
 
     def neighbor(direction)
       d = NEIGHBORS[direction]
-      @board.hex_at(q + d[0], r + d[1])
-    end
-
-    def to_s
-      str = "[#{q},#{r}]\n"
-      vertices.each do |direction, v|
-        str << "direction: #{v}\n"
-      end
+      @board.hex_at(Location.new(location.q + d[0], location.r + d[1]))
     end
   end
 end
