@@ -13,6 +13,7 @@ require 'catangerine/harbor'
 require 'catangerine/settlement'
 require 'catangerine/road'
 require 'catangerine/game_manager'
+require 'catangerine/conditions'
 require 'catangerine/commands'
 require 'catangerine/player'
 

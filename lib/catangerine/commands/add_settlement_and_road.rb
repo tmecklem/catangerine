@@ -1,7 +1,12 @@
 module Catangerine
   module Commands
     class AddSettlementAndRoad
-      attr_reader :success
+      include Catangerine::Conditions
+      attr_reader :success, :errors, :settlement_location, :road_location
+
+      CONDITIONS = [
+        SettlementAndRoadTouching
+      ]
 
       def initialize(player, settlement_location, road_location)
         @settlement_location = settlement_location
@@ -20,13 +25,10 @@ module Catangerine
       end
 
       def validate_command(game_manager)
-        settlement_vertex = game_manager.board.
-          hex_at(@settlement_location).
-          vertices[@settlement_location.direction]
-        protruding_edge_locations = settlement_vertex.protruding_edges.map do |edge|
-          Location.new(edge.hex.location.q, edge.hex.location.r, edge.direction)
-        end
-        protruding_edge_locations.include?(@road_location)
+        @errors = CONDITIONS.map do |condition|
+          condition.call(self, game_manager)
+        end.select { |result| !result.first }
+        @errors.empty?
       end
 
       def resource_me(game_manager)
