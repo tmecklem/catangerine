@@ -26,5 +26,12 @@ module Catangerine
       d = NEIGHBORS[direction]
       @board.hex_at(Location.new(location.q + d[0], location.r + d[1]))
     end
+
+    def to_s
+      str = "[#{q},#{r}]\n"
+      vertices.each do |direction, v|
+        str << "direction: #{v}\n"
+      end
+    end
   end
 end

@@ -2,7 +2,7 @@ Then(/^it should be player (\d+)'s turn$/) do |player_number|
   expect(game_manager.current_player).to eq game_manager.players[player_number.to_i - 1]
 end
 
-When(/^I place a settlement at (#{VERTEX}) and a road at (#{EDGE})$/) do |vertex, edge|
+When(/^I (?:try to )?place a settlement at (#{VERTEX}) and a road at (#{EDGE})$/) do |vertex, edge|
   @command = Catangerine::Commands::AddSettlementAndRoad.new(@current_player, *vertex, *edge)
   game_manager.play(@command)
 end

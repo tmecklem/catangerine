@@ -1,5 +1,6 @@
 module Catangerine
   class Location
+    include Comparable
     attr_accessor :q, :r, :direction
 
     NEIGHBORS = {
@@ -15,6 +16,13 @@ module Catangerine
         @q, @r = location[0..1]
         @direction = location.last.to_sym if location.size == 3
       end
+    end
+
+    def <=>(other)
+      return q <=> other.q if (q <=> other.q) != 0
+      return r <=> other.r if (r <=> other.r) != 0
+      return direction <=> other.direction if (direction <=> other.direction) != 0
+      0
     end
 
     private

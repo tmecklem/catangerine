@@ -9,3 +9,9 @@ Feature: Round One
     Then the board should contain a settlement at A,t
     And the board should contain a road at G,w
     And it should be player 2's turn
+
+  Scenario: Failure to add, road not protruding from settlement
+
+    Given a 3 player game at the start of round 1
+    When I try to place a settlement at A,t and a road at R,w
+    Then it should not succeed
