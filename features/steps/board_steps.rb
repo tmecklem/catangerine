@@ -36,18 +36,15 @@ Then(/^the board should contain a road at (#{EDGE})$/) do |edge|
   expect(game_manager.board.road_at(*edge).player).to eq(@current_player)
 end
 
-Given(/^the board has the following settlements:$/) do |settlements|
-  settlements.hashes.each do |row|
+Given(/^the board has the following items:$/) do |table|
+  table.hashes.select { |row| row['type'] == "settlement" }.each do |row|
     location = Catangerine::Location.new(*(row['location'].split(',')))
-    settlement = Catangerine::Settlement.new(game_manager.players[row['player'].to_i])
+    settlement = Catangerine::Settlement.new(game_manager.players[row['player'].to_i - 1])
     board.add_settlement(settlement, location)
   end
-end
-
-Given(/^the board has the following roads:$/) do |roads|
-  roads.hashes.each do |row|
+  table.hashes.select { |row| row['type'] == "road" }.each do |row|
     location = Catangerine::Location.new(*(row['location'].split(',')))
-    road = Catangerine::Road.new(game_manager.players[row['player'].to_i])
+    road = Catangerine::Road.new(game_manager.players[row['player'].to_i - 1])
     board.add_road(road, location)
   end
 end

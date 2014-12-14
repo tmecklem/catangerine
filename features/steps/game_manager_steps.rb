@@ -15,6 +15,7 @@ end
 When(/^I (?:try to )?place a road at (#{EDGE})$/) do |edge|
   @command = Catangerine::Commands::AddRoad.new(@current_player, *edge)
   game_manager.play(@command)
+  puts @command.errors if !@command.success
 end
 
 Then(/^it should not succeed$/) do

@@ -10,17 +10,17 @@ Feature: Adding a Settlement
   Scenario: Fail to add a settlement where one already exists
 
     Given a 3 player game at the start of round 3
-    And the board has the following settlements:
-      | location | player |
-      |      A,t |      2 |
+    And the board has the following items:
+      | type       | location | player |
+      | settlement |      A,t |      2 |
     When I try to place a settlement at A,t
     Then it should not succeed
 
   Scenario: Fail to add a settlement adjacent to an existing one
 
     Given a 3 player game at the start of round 3
-    And the board has the following settlements:
-      | location | player |
-      |      G,b |      2 |
+    And the board has the following items:
+      | type       | location | player |
+      | settlement |      G,b |      2 |
     When I try to place a settlement at A,t
     Then it should not succeed

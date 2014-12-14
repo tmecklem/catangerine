@@ -48,6 +48,12 @@ module Catangerine
       end.compact.uniq
     end
 
+    def settlements
+      @game_grid.to_a.map(&:vertices).each_with_object([]) do |vertices, acc|
+        acc.concat(vertices.values.map { |vertex| vertex.attributes[:settlement] } )
+      end.compact.uniq
+    end
+
     protected
 
     def game_grid
