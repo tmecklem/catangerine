@@ -6,6 +6,10 @@ module Catangerine
 
     protected
 
+    def edge_at(location)
+      hex_at(location).edges[location.direction]
+    end
+
     def vertex_at(location)
       hex_at(location).vertices[location.direction]
     end
@@ -14,10 +18,6 @@ module Catangerine
       vertex = vertex_at(location)
       vertex.attributes[object.object_type] = object
       object.position = vertex
-    end
-
-    def edge_at(location)
-      hex_at(location).edges[location.direction]
     end
 
     def set_edge_object(obj, location)

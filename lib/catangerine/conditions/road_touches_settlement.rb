@@ -6,7 +6,7 @@ module Catangerine
       connected = settlements.any? do |settlement|
         break false unless settlement.player == player
         protruding_edge_locations = settlement.position.protruding_edges.map do |edge|
-          Location.new(edge.hex.location.q, edge.hex.location.r, edge.direction)
+          edge.location
         end
         protruding_edge_locations.include?(command.road_location)
       end

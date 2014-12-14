@@ -5,7 +5,7 @@ module Catangerine
       attr_reader :success, :player, :road_location, :errors
 
       CONDITIONS = [
-        Or(RoadTouchesSettlement, SetupRound)
+        Or(RoadTouchesSettlement, RoadTouchesRoad, SetupRound)
       ]
 
       def initialize(player, road_location)
