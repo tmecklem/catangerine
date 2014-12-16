@@ -1,9 +1,8 @@
 module Catangerine
   module Commands
     class AddSettlementAndRoad < Command
-      include Catangerine::Conditions
-
       CONDITIONS = [
+        CorrectPlayerTurn,
         SettlementAndRoadTouching
       ]
 

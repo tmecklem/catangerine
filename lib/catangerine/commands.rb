@@ -1,6 +1,8 @@
 module Catangerine
   module Commands
     class Command
+      include Catangerine::Conditions
+
       attr_reader :player, :success, :errors, :attributes
 
       def initialize(player, attrs = {})

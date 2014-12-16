@@ -3,17 +3,17 @@ Then(/^it should be player (\d+)'s turn$/) do |player_number|
 end
 
 When(/^(#{PLAYER}) (?:try to |tries to )?place a settlement at (#{VERTEX}) and a road at (#{EDGE})$/) do |player, vertex, edge|
-  @command = Catangerine::Commands::AddSettlementAndRoad.new(@current_player, settlement_location: vertex, road_location: edge)
+  @command = Catangerine::Commands::AddSettlementAndRoad.new(player, settlement_location: vertex, road_location: edge)
   game_manager.play(@command)
 end
 
 When(/^(#{PLAYER}) (?:try to |tries to )?place a settlement at (#{VERTEX})$/) do |player, vertex|
-  @command = Catangerine::Commands::AddSettlement.new(@current_player, settlement_location: vertex)
+  @command = Catangerine::Commands::AddSettlement.new(player, settlement_location: vertex)
   game_manager.play(@command)
 end
 
 When(/^(#{PLAYER}) (?:try to |tries to )?place a road at (#{EDGE})$/) do |player, edge|
-  @command = Catangerine::Commands::AddRoad.new(@current_player, road_location: edge)
+  @command = Catangerine::Commands::AddRoad.new(player, road_location: edge)
   game_manager.play(@command)
   puts @command.errors if !@command.success
 end

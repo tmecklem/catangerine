@@ -24,3 +24,17 @@ Feature: Adding a Settlement
       | settlement |      G,b |      2 |
     When I try to place a settlement at A,t
     Then it should not succeed
+
+  Scenario: Fail to add a settlement when not player's turn
+
+    Given a 3 player game at the start of round 3
+    And the board has the following items:
+      | type       | location | player |
+      | settlement |     A,t  |      2 |
+      | road       |     A,nw |      2 |
+      | road       |     A,w  |      2 |
+      | road       |     A,sw |      2 |
+    When player 2 tries to place a settlement at A,b
+    Then it should not succeed
+
+
