@@ -2,18 +2,18 @@ Then(/^it should be player (\d+)'s turn$/) do |player_number|
   expect(game_manager.current_player).to eq game_manager.players[player_number.to_i - 1]
 end
 
-When(/^I (?:try to )?place a settlement at (#{VERTEX}) and a road at (#{EDGE})$/) do |vertex, edge|
-  @command = Catangerine::Commands::AddSettlementAndRoad.new(@current_player, *vertex, *edge)
+When(/^(#{PLAYER}) (?:try to |tries to )?place a settlement at (#{VERTEX}) and a road at (#{EDGE})$/) do |player, vertex, edge|
+  @command = Catangerine::Commands::AddSettlementAndRoad.new(@current_player, settlement_location: vertex, road_location: edge)
   game_manager.play(@command)
 end
 
-When(/^I (?:try to )?place a settlement at (#{VERTEX})$/) do |vertex|
-  @command = Catangerine::Commands::AddSettlement.new(@current_player, *vertex)
+When(/^(#{PLAYER}) (?:try to |tries to )?place a settlement at (#{VERTEX})$/) do |player, vertex|
+  @command = Catangerine::Commands::AddSettlement.new(@current_player, settlement_location: vertex)
   game_manager.play(@command)
 end
 
-When(/^I (?:try to )?place a road at (#{EDGE})$/) do |edge|
-  @command = Catangerine::Commands::AddRoad.new(@current_player, *edge)
+When(/^(#{PLAYER}) (?:try to |tries to )?place a road at (#{EDGE})$/) do |player, edge|
+  @command = Catangerine::Commands::AddRoad.new(@current_player, road_location: edge)
   game_manager.play(@command)
   puts @command.errors if !@command.success
 end
