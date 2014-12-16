@@ -1,16 +1,11 @@
 module Catangerine
   module Commands
-    class AddSettlement
-      attr_reader :success, :settlement
-
-      def initialize(player, location)
-        @player = player
-        @location = location
-      end
+    class AddSettlement < Command
+      attr_reader :settlement
 
       def execute(game_manager)
         @settlement = Catangerine::Settlement.new(@player)
-        @success = game_manager.board.add_settlement(@settlement, @location)
+        @success = game_manager.board.add_settlement(@settlement, attributes[:settlement_location])
       end
     end
   end
