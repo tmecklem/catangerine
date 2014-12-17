@@ -1,7 +1,7 @@
 module Catangerine
   class Board
     include ContainsHexGrid
-    attr_reader :state
+    attr_reader :state, :robber_location
 
     def initialize
       @game_grid = GameGrid.new
@@ -38,8 +38,16 @@ module Catangerine
       true
     end
 
-    def tiles
-      @game_grid.to_a.map(&:face).compact
+    def move_robber(location)
+      @robber_location = location
+    end
+
+    def tiles(resource_type = nil)
+      tiles = @game_grid.to_a.map(&:face).compact
+      unless resource_type.nil?
+        tiles = tiles.select { |tile| tile.resource_type == resource_type }
+      end
+      tiles
     end
 
     def harbors

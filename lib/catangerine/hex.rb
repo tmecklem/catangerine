@@ -22,6 +22,11 @@ module Catangerine
       ne: [ 1,-1], nw: [ 0,-1], w: [-1, 0]
     }
 
+    def face=(face)
+      @face = face
+      face.position = self
+    end
+
     def neighbor(direction)
       d = NEIGHBORS[direction]
       @board.hex_at(Location.new(location.q + d[0], location.r + d[1]))

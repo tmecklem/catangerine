@@ -9,6 +9,7 @@ Feature: Board Generation
     And the board should have <game_type> chits
     And the board should have <game_type> harbors
     And the board should be in set_up state
+    And the robber should be on a desert tile
 
     Examples:
       | number | game_type |

@@ -48,3 +48,10 @@ Given(/^the board has the following items:$/) do |table|
     board.add_road(road, location)
   end
 end
+
+Then(/^the robber should be on a desert tile$/) do
+  desert_tile_locations = game_manager.board.tiles(:desert).map(&:location)
+  robber_location = game_manager.board.robber_location
+  expect(robber_location).to_not be nil
+  expect(desert_tile_locations).to include(robber_location)
+end

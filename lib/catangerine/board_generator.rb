@@ -13,6 +13,7 @@ module Catangerine
       board = Board.new
       layout_tiles(board, generate_tiles)
       layout_harbors(board, generate_harbors)
+      place_robber(board)
       board
     end
 
@@ -81,6 +82,10 @@ module Catangerine
         end
       end
       harbor_layout.shuffle!
+    end
+
+    def place_robber(board)
+      board.move_robber(board.tiles(:desert).first.location)
     end
   end
 end
