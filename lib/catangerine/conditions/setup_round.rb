@@ -1,7 +1,7 @@
+require_relative 'or'
+
 module Catangerine
   module Conditions
-    extend ClassMethods
-
     RoundOne = ->(command, game_manager) {
       [game_manager.round == 1, "Round One"]
     }
@@ -11,7 +11,7 @@ module Catangerine
     }
 
     SetupRound = ->(command, game_manager) {
-      Or(RoundOne, RoundTwo).call(command, game_manager)
+      Or.call(RoundOne, RoundTwo).call(command, game_manager)
     }
   end
 end

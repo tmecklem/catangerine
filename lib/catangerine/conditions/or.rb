@@ -1,10 +1,6 @@
 module Catangerine
   module Conditions
-    def self.included(base)
-      base.extend ClassMethods
-    end
-
-    OrCondition = ->(*conditions) {
+    Or = ->(*conditions) {
       ->(command, game_manager) {
         results = conditions.map do |condition|
           condition.call(command, game_manager)
@@ -12,11 +8,5 @@ module Catangerine
         [results.any?(&:first), results]
       }
     }
-
-    module ClassMethods
-      def Or(*conditions)
-        OrCondition.call(*conditions)
-      end
-    end
   end
 end

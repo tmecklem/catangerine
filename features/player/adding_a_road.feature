@@ -41,3 +41,13 @@ Feature: Adding a Road
       | road       | A,nw     |      1 |
     When I try to place a road at A,nw
     Then it should not succeed
+
+  Scenario: Fail to add a road when not player's turn
+
+    Given a 3 player game at the start of round 3
+    And the board has the following items:
+      | type       | location | player |
+      | settlement |     A,t  |      2 |
+      | road       |     A,nw |      2 |
+    When player 2 tries to place a road at A,w
+    Then it should not succeed

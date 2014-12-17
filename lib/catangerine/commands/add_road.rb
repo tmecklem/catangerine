@@ -1,23 +1,15 @@
 module Catangerine
   module Commands
     class AddRoad < Command
-      CONDITIONS = [
-        CorrectPlayerTurn,
-        Or(RoadTouchesSettlement, RoadTouchesRoad, SetupRound)
-      ]
+      protected
 
-      def execute(game_manager)
-        return @success = false if !validate_command(game_manager)
-
-        road = Catangerine::Road.new(@player)
-        @success = game_manager.board.add_road(road, attributes[:road_location])
+      def command_conditions
+        Or.call(RoadTouchesSettlement, RoadTouchesRoad, SetupRound)
       end
 
-      def validate_command(game_manager)
-        @errors = CONDITIONS.map do |condition|
-          condition.call(self, game_manager)
-        end.select { |result| !result.first }
-        @errors.empty?
+      def execute_after_validation(game_manager)
+        road = Catangerine::Road.new(@player)
+        @success = game_manager.board.add_road(road, attributes[:road_location])
       end
     end
   end
