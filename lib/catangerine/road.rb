@@ -1,6 +1,7 @@
 module Catangerine
   class Road
-    attr_accessor :player
+    attr_reader :player
+    attr_accessor :position
 
     def initialize(player)
       @player = player

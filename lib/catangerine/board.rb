@@ -4,7 +4,6 @@ module Catangerine
     attr_reader :state, :robber_location
 
     def initialize
-      @game_grid = GameGrid.new
       @state = :set_up
     end
 
@@ -43,7 +42,7 @@ module Catangerine
     end
 
     def tiles(resource_type = nil)
-      tiles = @game_grid.to_a.map(&:face).compact
+      tiles = hexes.values.map(&:face).compact
       unless resource_type.nil?
         tiles = tiles.select { |tile| tile.resource_type == resource_type }
       end
@@ -51,21 +50,15 @@ module Catangerine
     end
 
     def harbors
-      @game_grid.to_a.map(&:vertices).each_with_object([]) do |vertices, acc|
+      hexes.values.map(&:vertices).each_with_object([]) do |vertices, acc|
         acc.concat(vertices.values.map { |vertex| vertex.attributes[:harbor] } )
       end.compact.uniq
     end
 
     def settlements
-      @game_grid.to_a.map(&:vertices).each_with_object([]) do |vertices, acc|
+      hexes.values.map(&:vertices).each_with_object([]) do |vertices, acc|
         acc.concat(vertices.values.map { |vertex| vertex.attributes[:settlement] } )
       end.compact.uniq
-    end
-
-    protected
-
-    def game_grid
-      @game_grid
     end
   end
 end

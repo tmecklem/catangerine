@@ -1,7 +1,7 @@
 module Catangerine
   module ContainsHexGrid
     def hex_at(location)
-      game_grid[location.q][location.r] ||= Hex.new(self, location)
+      hexes[location.without_direction] ||= Hex.new(self, location)
     end
 
     protected
@@ -20,12 +20,14 @@ module Catangerine
       object.position = vertex
     end
 
-    def set_edge_object(obj, location)
-      edge_at(location).object = obj
+    def set_edge_object(object, location)
+      edge = edge_at(location)
+      edge.object = object
+      object.position = edge
     end
 
-    def game_grid
-      raise NotImplementedError, "#{self.class.name} does not implement #{__method__}"
+    def hexes
+      @hexes ||= {}
     end
   end
 end

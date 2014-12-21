@@ -18,11 +18,22 @@ module Catangerine
       end
     end
 
+    def without_direction
+      return self if @direction.nil?
+      Location.new(self.q, self.r)
+    end
+
     def <=>(other)
       return q <=> other.q if (q <=> other.q) != 0
       return r <=> other.r if (r <=> other.r) != 0
       return direction <=> other.direction if (direction <=> other.direction) != 0
       0
+    end
+
+    alias eql? ==
+
+    def hash
+      @q ^ @r ^ (@direction || 0)
     end
 
     private
