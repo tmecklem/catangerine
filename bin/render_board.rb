@@ -59,6 +59,15 @@ module Hex2D
       cr.set_line_join(Cairo::LINE_JOIN_MITER)
       cr.set_line_width(1)
       cr.stroke
+
+      cr.set_source_rgb 0.1, 0.1, 0.1
+
+      cr.select_font_face "Purisa", Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_NORMAL
+      cr.set_font_size 13
+
+      cr.move_to center.x + origin.x - @size/2, center.y + origin.y + @size/4
+      cr.show_text location.name
+
     end
     cr.target.write_to_png("test#{i}.png")
   end

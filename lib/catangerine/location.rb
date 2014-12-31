@@ -29,6 +29,15 @@ module Catangerine
       0
     end
 
+    def ==(other)
+      return true if super
+      self.to_a==other.to_a
+    end
+
+    def to_a
+      [@q, @r, @location].compact
+    end
+
     alias eql? ==
 
     def hash
@@ -37,6 +46,10 @@ module Catangerine
 
     def to_s
       "#{@q}, #{r}"
+    end
+
+    def name
+      @@cached_locations.select { |key, location| self == location }.keys.first
     end
 
     private
