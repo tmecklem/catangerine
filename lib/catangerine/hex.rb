@@ -33,7 +33,7 @@ module Catangerine
     end
 
     def to_s
-      str = "[#{q},#{r}]\n"
+      str = "[#{location.q},#{location.r}]\n"
       vertices.each do |direction, v|
         str << "direction: #{v}\n"
       end
