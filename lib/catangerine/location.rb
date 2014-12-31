@@ -36,6 +36,10 @@ module Catangerine
       @q ^ @r ^ (@direction || 0)
     end
 
+    def to_s
+      "#{@q}, #{r}"
+    end
+
     private
 
     def convert_name_to_coordinates(name)
