@@ -4,8 +4,7 @@ module Catangerine
     attr_accessor :q, :r, :direction
 
     NEIGHBORS = {
-      sw: [-1, 1], se: [ 0, 1], e: [ 1, 0],
-      ne: [ 1,-1], nw: [ 0,-1], w: [-1, 0]
+      w: [-1, 0], sw: [-1, 1], se: [ 0, 1], e: [ 1, 0], ne: [ 1,-1], nw: [ 0,-1]
     }
 
     def initialize(*location)
@@ -30,10 +29,27 @@ module Catangerine
       0
     end
 
+    def ==(other)
+      return true if super
+      self.to_a==other.to_a
+    end
+
+    def to_a
+      [@q, @r, @direction].compact
+    end
+
     alias eql? ==
 
     def hash
       @q ^ @r ^ (@direction || 0)
+    end
+
+    def to_s
+      "#{@q}, #{r}"
+    end
+
+    def name
+      @@cached_locations.select { |key, location| self == location }.keys.first
     end
 
     private
@@ -51,12 +67,12 @@ module Catangerine
       scale = 0
       until names.empty?
         scale += 1
-        hex = [hex,NEIGHBORS[:nw]].transpose.map {|x| x.reduce(:+)}
+        hex = [hex,NEIGHBORS[:ne]].transpose.map {|x| x.reduce(:+)}
         NEIGHBORS.keys.each do |direction|
           scale.times do
             break if names.empty?
-            location_array[names.shift] = hex
             hex = [hex,NEIGHBORS[direction]].transpose.map {|x| x.reduce(:+)}
+            location_array[names.shift] = hex
           end
         end
       end

@@ -26,19 +26,10 @@ module Catangerine
     end
 
     def layout_tiles(board, tiles)
-      hex = board.hex_at(Location.new(0,0))
-      hex.face = tiles.shift
-      scale = 0
-      until tiles.empty?
-        scale += 1
-        hex = hex.neighbor(:nw)
-        Hex::NEIGHBORS.keys.each do |direction|
-          scale.times do
-            break if tiles.empty?
-            hex.face = tiles.shift
-            hex = hex.neighbor(direction)
-          end
-        end
+      tile_names = ("A".."ZZ").to_a[0...tiles.count]
+      tile_names.each do |tile_name|
+        hex = board.hex_at(Location.new(tile_name))
+        hex.face = tiles.shift
       end
       board
     end

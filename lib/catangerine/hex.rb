@@ -18,8 +18,7 @@ module Catangerine
     end
 
     NEIGHBORS = {
-      sw: [-1, 1], se: [ 0, 1], e: [ 1, 0],
-      ne: [ 1,-1], nw: [ 0,-1], w: [-1, 0]
+      w: [-1, 0], sw: [-1, 1], se: [ 0, 1], e: [ 1, 0], ne: [ 1,-1], nw: [ 0,-1]
     }
 
     def face=(face)
@@ -33,7 +32,7 @@ module Catangerine
     end
 
     def to_s
-      str = "[#{q},#{r}]\n"
+      str = "[#{location.q},#{location.r}]\n"
       vertices.each do |direction, v|
         str << "direction: #{v}\n"
       end

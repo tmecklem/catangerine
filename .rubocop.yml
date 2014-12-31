@@ -1,0 +1,12 @@
+
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'spec/spec_helper*'
+    - '*.gemspec'
+Metrics/LineLength:
+  Max: 99
+
+Style/Documentation:
+  Enabled: false
