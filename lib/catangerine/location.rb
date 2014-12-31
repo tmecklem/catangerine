@@ -35,7 +35,7 @@ module Catangerine
     end
 
     def to_a
-      [@q, @r, @location].compact
+      [@q, @r, @direction].compact
     end
 
     alias eql? ==

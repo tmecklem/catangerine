@@ -29,11 +29,11 @@ Then(/^the board should be in (.*?) state$/) do |state|
 end
 
 Then(/^the board should contain a settlement at (#{VERTEX})$/) do |vertex|
-  expect(game_manager.board.settlement_at(*vertex).player).to eq(@current_player)
+  expect(game_manager.board.settlement_at(vertex).player).to eq(@current_player)
 end
 
 Then(/^the board should contain a road at (#{EDGE})$/) do |edge|
-  expect(game_manager.board.road_at(*edge).player).to eq(@current_player)
+  expect(game_manager.board.road_at(edge).player).to eq(@current_player)
 end
 
 Given(/^the board has the following items:$/) do |table|
