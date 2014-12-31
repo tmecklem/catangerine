@@ -2,6 +2,8 @@
 
 require 'catangerine'
 require 'cairo'
+require 'ostruct'
+require 'matrix'
 
 width = 200
 height = 200
@@ -10,58 +12,65 @@ data = nil
 stride = nil
 
 module Board2D
-  def render(cr)
+  def render(cr, origin)
     # fill background with white
     cr.set_source_color("#fffc")
     cr.paint
 
-    tiles.each do |tile|
-      tile.extend(Tile2D)
-      tile.render(cr)
+    hexes.each_with_index do |(location, hex), i|
+      hex.extend(Hex2D)
+      hex.render(cr, origin, i)
     end
   end
 end
 
-module Tile2D
+module Hex2D
   def center
     @size = 15
-    x = @size * Math.sqrt(3) * (position.location.q + position.location.r/2)
-    y = @size * 3/2 * position.location.r
-    { x: x, y: y }
+    height = @size*2
+    q_basis = Matrix[ [Math.sqrt(3)/2 * height, 0] ]
+    r_basis = Matrix[ [(Math.sqrt(3)/2 * height)/2, 3.0/4 * height] ]
+    pos = q_basis * location.q + r_basis * location.r
+    OpenStruct.new(x: pos[0,0], y: pos[0,1])
   end
 
-  def render(cr)
-    0.upto(5) do |i|
-      angle = 2 * Math::PI / 6 * (i + 0.5)
-      x_i = center[:x] + @size * Math.cos(angle)
-      y_i = center[:y] + @size * Math.sin(angle)
-      cr.move_to(x_i, y_i) if i==0
-      cr.line_to(x_i, y_i) unless i==0
+  def render(cr, origin, i)
+    if self.face
+      0.upto(5) do |i|
+        angle = 2 * Math::PI / 6 * (i + 0.5)
+        vertex = OpenStruct.new(
+          x: center[:x] + @size * Math.cos(angle),
+          y: center[:y] + @size * Math.sin(angle)
+        )
+        cr.move_to(vertex.x + origin.x, vertex.y + origin.y) if i==0
+        cr.line_to(vertex.x + origin.x, vertex.y + origin.y) unless i==0
+      end
+      cr.close_path
+      # create shape
+      #cr.move_to(50, 50)
+      #cr.curve_to(100, 25, 100, 75, 150, 50)
+      #cr.line_to(150, 150)
+      #cr.line_to(50, 150)
+      #cr.close_path
+
+      #cr.set_source_color(:black)
+      #cr.fill_preserve
+      cr.set_source_color(:red)
+      cr.set_line_join(Cairo::LINE_JOIN_MITER)
+      cr.set_line_width(1)
+      cr.stroke
     end
-    cr.close_path
-    # create shape
-    #cr.move_to(50, 50)
-    #cr.curve_to(100, 25, 100, 75, 150, 50)
-    #cr.line_to(150, 150)
-    #cr.line_to(50, 150)
-    #cr.close_path
-
-    #cr.set_source_color(:black)
-    #cr.fill_preserve
-    cr.set_source_color(:red)
-    cr.set_line_join(Cairo::LINE_JOIN_MITER)
-    cr.set_line_width(1)
-    cr.stroke
-
+    cr.target.write_to_png("test#{i}.png")
   end
 end
 
-board = Catangerine::BoardGenerator.new(Catangerine::BoardConfiguration.configuration(:standard)).generate
+board = Catangerine::BoardGenerator.new(Catangerine::BoardConfiguration.configuration(:expanded)).generate
 board.extend(Board2D)
 
 Cairo::ImageSurface.new(width, height) do |surface|
   cr = Cairo::Context.new(surface)
-  board.render(cr)
+  origin = OpenStruct.new(x: width/2, y: height/2)
+  board.render(cr, origin)
 
 
   cr.target.write_to_png("test.png")
