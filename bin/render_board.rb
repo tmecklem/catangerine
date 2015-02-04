@@ -5,8 +5,8 @@ require 'cairo'
 require 'ostruct'
 require 'matrix'
 
-width = 200
-height = 200
+width = 600
+height = 600
 
 data = nil
 stride = nil
@@ -25,8 +25,18 @@ module Board2D
 end
 
 module Hex2D
+
+  TILE_COLORS = {
+    hills: :light_green,
+    pasture: :green,
+    mountains: :gray,
+    fields: :yellow,
+    forest: :dark_green,
+    desert: :brown
+  }
+
   def center
-    @size = 15
+    @size = 30
     height = @size*2
     q_basis = Matrix[ [Math.sqrt(3)/2 * height, 0] ]
     r_basis = Matrix[ [(Math.sqrt(3)/2 * height)/2, 3.0/4 * height] ]
@@ -46,16 +56,10 @@ module Hex2D
         cr.line_to(vertex.x + origin.x, vertex.y + origin.y) unless i==0
       end
       cr.close_path
-      # create shape
-      #cr.move_to(50, 50)
-      #cr.curve_to(100, 25, 100, 75, 150, 50)
-      #cr.line_to(150, 150)
-      #cr.line_to(50, 150)
-      #cr.close_path
 
-      #cr.set_source_color(:black)
-      #cr.fill_preserve
-      cr.set_source_color(:red)
+      cr.set_source_color(TILE_COLORS[self.face.resource_type])
+      cr.fill_preserve
+      cr.set_source_color(:gray)
       cr.set_line_join(Cairo::LINE_JOIN_MITER)
       cr.set_line_width(1)
       cr.stroke
@@ -66,10 +70,9 @@ module Hex2D
       cr.set_font_size 13
 
       cr.move_to center.x + origin.x - @size/2, center.y + origin.y + @size/4
-      cr.show_text location.name
+      cr.show_text "#{location.name} #{self.face.resource_type[0..1]}"
 
     end
-    cr.target.write_to_png("test#{i}.png")
   end
 end
 
