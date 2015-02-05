@@ -60,5 +60,12 @@ module Catangerine
         acc.concat(vertices.values.map { |vertex| vertex.attributes[:settlement] } )
       end.compact.uniq
     end
+
+    def roads(player = nil)
+      roads = hexes.values.map(&:edges).each_with_object([]) do |edges, acc|
+        acc.concat(edges.values.map { |edge| edge.object } )
+      end.compact.uniq
+      roads.select { |road| player.nil? || road.player == player }
+    end
   end
 end

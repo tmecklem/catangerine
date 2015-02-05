@@ -33,3 +33,12 @@ Then(/^I should receive resource cards from the following tiles:$/) do |table|
   end
   expect(player.resource_cards).to eq expected_resource_cards
 end
+
+Then(/^I should receive the longest road card$/) do
+  player = game_manager.players.first
+  player_roads = board.roads(player)
+  player.connected_road_sets(player_roads)
+  pending
+  # binding.pry
+end
+
