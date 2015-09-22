@@ -14,9 +14,9 @@ module Catangerine
       hex_at(location).vertices[location.direction]
     end
 
-    def set_vertex_object(object, location)
+    def set_vertex_object(object, location, object_type)
       vertex = vertex_at(location)
-      vertex.attributes[object.object_type] = object
+      vertex.attributes[object_type] = object
       object.position = vertex
     end
 

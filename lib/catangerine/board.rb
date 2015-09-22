@@ -8,26 +8,29 @@ module Catangerine
     end
 
     def settlement_at(location)
-      vertex_at(location).attributes[:settlement]
+      vertex_at(location).settlement
     end
 
-    def add_settlement(settlement, location)
-      vertex = vertex_at(location)
-      return false unless vertex.attributes[settlement.object_type].nil?
-      return false unless Settlement.adjacent_settlements(vertex).all?(&:nil?)
-      set_vertex_object(settlement, location)
-      true
-    end
-
-    def add_harbor(harbor, location)
-      vertex = vertex_at(location)
-      return false unless vertex.attributes[harbor.object_type].nil?
-      set_vertex_object(harbor, location)
-      true
+    def harbor_at(location)
+      vertex_at(location).harbor
     end
 
     def road_at(location)
       edge_at(location).object
+    end
+
+    def add_settlement(settlement, location)
+      vertex = vertex_at(location)
+      return false if vertex.settlement
+      return false if Settlement.adjacent_settlements(vertex).any?
+      set_vertex_object(settlement, location, :settlement)
+      true
+    end
+
+    def add_harbor(harbor, location)
+      return false if harbor_at(location)
+      set_vertex_object(harbor, location, :harbor)
+      true
     end
 
     def add_road(road, location)
@@ -51,19 +54,19 @@ module Catangerine
 
     def harbors
       hexes.values.map(&:vertices).each_with_object([]) do |vertices, acc|
-        acc.concat(vertices.values.map { |vertex| vertex.attributes[:harbor] } )
+        acc.concat(vertices.values.map(&:harbor))
       end.compact.uniq
     end
 
     def settlements
       hexes.values.map(&:vertices).each_with_object([]) do |vertices, acc|
-        acc.concat(vertices.values.map { |vertex| vertex.attributes[:settlement] } )
+        acc.concat(vertices.values.map(&:settlement))
       end.compact.uniq
     end
 
     def roads(player = nil)
       roads = hexes.values.map(&:edges).each_with_object([]) do |edges, acc|
-        acc.concat(edges.values.map { |edge| edge.object } )
+        acc.concat(edges.values.map(&:object))
       end.compact.uniq
       roads.select { |road| player.nil? || road.player == player }
     end
