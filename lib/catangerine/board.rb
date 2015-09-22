@@ -7,6 +7,21 @@ module Catangerine
       @state = :set_up
     end
 
+    def observers
+      @observers ||= []
+    end
+
+    def add_observer(observer)
+      observers << observer
+    end
+
+    def publish_event(event_name, *arguments)
+      arguments.insert(0, self)
+      observers.each do |observer|
+        observer.send(event_name, *arguments) if observer.respond_to?(event_name)
+      end
+    end
+
     def settlement_at(location)
       vertex_at(location).settlement
     end
@@ -24,12 +39,14 @@ module Catangerine
       return false if vertex.settlement
       return false if Settlement.adjacent_settlements(vertex).any?
       set_vertex_object(settlement, location, :settlement)
+      publish_event(:settlement_added, settlement, location)
       true
     end
 
     def add_harbor(harbor, location)
       return false if harbor_at(location)
       set_vertex_object(harbor, location, :harbor)
+      publish_event(:harbor_added, harbor, location)
       true
     end
 
@@ -37,11 +54,13 @@ module Catangerine
       edge = edge_at(location)
       return false unless edge.object.nil?
       set_edge_object(road, location)
+      publish_event(:road_added, road, location)
       true
     end
 
     def move_robber(location)
       @robber_location = location
+      publish_event(:robber_moved, location)
     end
 
     def tiles(resource_type = nil)
