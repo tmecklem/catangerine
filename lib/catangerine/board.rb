@@ -31,7 +31,7 @@ module Catangerine
     end
 
     def road_at(location)
-      edge_at(location).object
+      edge_at(location).road
     end
 
     def add_settlement(settlement, location)
@@ -52,7 +52,7 @@ module Catangerine
 
     def add_road(road, location)
       edge = edge_at(location)
-      return false unless edge.object.nil?
+      return false if edge.road
       set_edge_object(road, location)
       publish_event(:road_added, road, location)
       true
@@ -85,7 +85,7 @@ module Catangerine
 
     def roads(player = nil)
       roads = hexes.values.map(&:edges).each_with_object([]) do |edges, acc|
-        acc.concat(edges.values.map(&:object))
+        acc.concat(edges.values.map(&:road))
       end.compact.uniq
       roads.select { |road| player.nil? || road.player == player }
     end

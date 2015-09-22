@@ -45,7 +45,7 @@ module Catangerine
     end
 
     def to_s
-      "#{@q}, #{r}"
+      "#{@q}, #{@r}, #{@direction}"
     end
 
     def name

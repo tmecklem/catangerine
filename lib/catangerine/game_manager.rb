@@ -16,6 +16,8 @@ module Catangerine
 
     def start_game
       @board = BoardGenerator.new(@options[:board]).generate
+      @longest_road_observer = Observers::LongestRoadObserver.new
+      @board.add_observer(@longest_road_observer)
       @current_player = @players.first
       @round = 1
     end
@@ -31,6 +33,10 @@ module Catangerine
     def end_turn
       @current_player = players[(players.index(current_player) + 1) % players.size]
       @round += 1 if current_player == players.first
+    end
+
+    def player_with_longest_road_card
+      @longest_road_observer.player_with_longest_road_card
     end
 
     private

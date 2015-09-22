@@ -16,6 +16,7 @@ require 'catangerine/game_manager'
 require 'catangerine/conditions'
 require 'catangerine/commands'
 require 'catangerine/player'
+require 'catangerine/observers/longest_road_observer'
 
 module Catangerine
 end

@@ -36,9 +36,6 @@ end
 
 Then(/^I should receive the longest road card$/) do
   player = game_manager.players.first
-  player_roads = board.roads(player)
-  player.connected_road_sets(player_roads)
-  pending
-  # binding.pry
+  expect(game_manager.player_with_longest_road_card).to eq player
 end
 

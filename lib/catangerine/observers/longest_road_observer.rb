@@ -1,0 +1,15 @@
+module Observers
+  class LongestRoadObserver
+    attr_accessor :longest_road_length, :player_with_longest_road_card
+
+    def road_added(board, road, location)
+      player = road.player
+      player_roads = board.roads(player)
+      length_of_road = player.longest_road_length(player_roads).length
+      if length_of_road > 4 && length_of_road > (longest_road_length || 0)
+        self.longest_road_length = length_of_road
+        self.player_with_longest_road_card = player
+      end
+    end
+  end
+end
