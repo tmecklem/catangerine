@@ -8,16 +8,28 @@ module Catangerine
     end
 
     def connected_segments
-      edge = position
       edge.connections.map { |connection|
-        road = connection[:edge].road
-        belongs_to_player = road && road.player == player
-        road if belongs_to_player
+        connection[:edge].road if belongs_to_player(connection) && unblocked(connection)
       }.compact
     end
 
     def to_s
       "Road - #{position}"
+    end
+
+    private
+
+    def edge
+      position
+    end
+
+    def unblocked(connection)
+      connection[:vertex].settlement.nil? || connection[:vertex].settlement.player == player
+    end
+
+    def belongs_to_player(connection)
+      road = connection[:edge].road
+      road && road.player == player
     end
   end
 end
