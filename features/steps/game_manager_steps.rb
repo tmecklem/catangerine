@@ -39,3 +39,7 @@ Then(/^I should receive the longest road card$/) do
   expect(game_manager.player_with_longest_road_card).to eq player
 end
 
+Then(/^I should not receive the longest road card$/) do
+  player = game_manager.players.first
+  expect(game_manager.player_with_longest_road_card).not_to eq player
+end
