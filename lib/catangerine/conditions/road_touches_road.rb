@@ -7,7 +7,7 @@ module Catangerine
         hex_at(road_location).
         edges[road_location.direction]
 
-      connected = edge.continuing_edges.any? do |continuing_edge|
+      connected = edge.connections.map{ |c| c[:edge] }.any? do |continuing_edge|
         road = game_manager.board.road_at(
           continuing_edge.location
         )

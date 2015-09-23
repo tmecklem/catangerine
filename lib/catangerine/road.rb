@@ -8,19 +8,16 @@ module Catangerine
     end
 
     def connected_segments
-      edge = self.position
-      edge.continuing_edges.map do |continuing_edge|
-        road = continuing_edge.road
-        if road && road.player == player
-          road
-        else
-          nil
-        end
-      end.compact
+      edge = position
+      edge.connections.map { |connection|
+        road = connection[:edge].road
+        belongs_to_player = road && road.player == player
+        road if belongs_to_player
+      }.compact
     end
 
     def to_s
-      "Road - #{position.to_s}"
+      "Road - #{position}"
     end
   end
 end

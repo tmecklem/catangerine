@@ -8,28 +8,28 @@ module Catangerine
       @direction = direction
     end
 
-    def continuing_edges
-      @continuing_edges_map ||= {
+    def connections
+      @connections_map ||= {
         nw: [
-          @hex.neighbor(:ne).edges[:w],
-          @hex.neighbor(:ne).edges[:sw],
-          @hex.edges[:w],
-          @hex.neighbor(:nw).edges[:sw]
+          { edge: @hex.neighbor(:ne).edges[:w], vertex: @hex.vertices[:t] },
+          { edge: @hex.neighbor(:ne).edges[:sw], vertex: @hex.vertices[:t] },
+          { edge: @hex.edges[:w], vertex: @hex.neighbor(:nw).vertices[:b] },
+          { edge: @hex.neighbor(:nw).edges[:sw], vertex: @hex.neighbor(:nw).vertices[:b] }
         ],
         w: [
-          @hex.edges[:nw],
-          @hex.edges[:sw],
-          @hex.neighbor(:nw).edges[:sw],
-          @hex.neighbor(:sw).edges[:nw]
+          { edge: @hex.edges[:nw], vertex: @hex.neighbor(:nw).vertices[:b] },
+          { edge: @hex.edges[:sw], vertex: @hex.neighbor(:sw).vertices[:t] },
+          { edge: @hex.neighbor(:nw).edges[:sw], vertex:  @hex.neighbor(:nw).vertices[:b] },
+          { edge: @hex.neighbor(:sw).edges[:nw], vertex: @hex.neighbor(:sw).vertices[:t] }
         ],
         sw: [
-          @hex.edges[:w],
-          @hex.neighbor(:sw).edges[:nw],
-          @hex.neighbor(:se).edges[:nw],
-          @hex.neighbor(:se).edges[:w]
+          { edge: @hex.edges[:w], vertex: @hex.neighbor(:sw).vertices[:t] },
+          { edge: @hex.neighbor(:sw).edges[:nw], vertex: @hex.neighbor(:sw).vertices[:t] },
+          { edge: @hex.neighbor(:se).edges[:nw], vertex: @hex.vertices[:b] },
+          { edge: @hex.neighbor(:se).edges[:w], vertex: @hex.vertices[:b] }
         ]
       }
-      @continuing_edges_map[direction]
+      @connections_map[direction]
     end
 
     def location
