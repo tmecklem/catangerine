@@ -18,28 +18,34 @@ module Observers
     end
 
     def connected_road_sets(player_roads)
-      roads_to_visit = player_roads.dup
+      unvisited_segments = player_roads.dup
       visited_sets = []
-      until roads_to_visit.empty?
-        road = roads_to_visit.shift
+      until unvisited_segments.empty?
+        road = unvisited_segments.shift
         connected_road = ConnectedRoad.new
         visited_sets << connected_road
-        visit_road(road, roads_to_visit, connected_road)
+        visit_road(road, unvisited_segments, connected_road)
       end
       visited_sets
     end
 
-    def visit_road(road, roads_to_visit, connected_road)
-      connected_road.road_segments << road
-      road.connected_segments.each do |connected_segment|
-        if roads_to_visit.include?(connected_segment)
-          roads_to_visit.delete(connected_segment)
-          visit_road(connected_segment, roads_to_visit, connected_road)
-        end
+    def visit_road(segment, unvisited_segments, connected_road)
+      connected_road.road_segments << segment
+      unvisited_connected_segments(segment, unvisited_segments).each do |connected_segment|
+        unvisited_segments.delete(connected_segment)
+        visit_road(connected_segment, unvisited_segments, connected_road)
+      end
+    end
+
+    def unvisited_connected_segments(segment, unvisited_segments)
+      segment.connected_segments.select do |connected_segment|
+        unvisited_segments.include?(connected_segment)
       end
     end
   end
 
+  # This class represents the concept of a complete section of connected road segments.
+  # A player may have several of these.
   class ConnectedRoad
     def road_segments
       @road_segments ||= []
