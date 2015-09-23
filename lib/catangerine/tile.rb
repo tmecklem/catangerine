@@ -12,7 +12,7 @@ module Catangerine
     end
 
     def to_s
-      "#{@resource_type.to_s} : #{@chit_number}"
+      "#{@resource_type} : #{@chit_number}"
     end
   end
 end

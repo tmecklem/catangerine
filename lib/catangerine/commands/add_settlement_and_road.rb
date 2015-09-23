@@ -1,7 +1,6 @@
 module Catangerine
   module Commands
     class AddSettlementAndRoad < Command
-
       protected
 
       def command_conditions
@@ -17,7 +16,7 @@ module Catangerine
         @success
       end
 
-      def resource_me(game_manager)
+      def resource_me(_game_manager)
         @add_settlement.settlement.touching_tiles.each do |tile|
           @player.resource_cards[tile.resource_type] ||= 0
           @player.resource_cards[tile.resource_type] += 1

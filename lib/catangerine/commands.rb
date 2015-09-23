@@ -12,18 +12,18 @@ module Catangerine
       end
 
       def execute(game_manager)
-        return @success = false if !validate_command(game_manager)
+        return @success = false unless validate_command(game_manager)
         execute_after_validation(game_manager)
       end
 
       protected
 
-      def execute_after_validation(game_manager)
+      def execute_after_validation(_game_manager)
         raise NotImplementedError, "#{self.class.name} does not implement #{__method__}"
       end
 
       def command_conditions
-        #condition hook for subclasses
+        # condition hook for subclasses
       end
 
       def validate_command(game_manager)
@@ -36,4 +36,4 @@ module Catangerine
   end
 end
 
-Dir[File.dirname(__FILE__) + '/commands/*.rb'].each {|file| require file }
+Dir[File.dirname(__FILE__) + '/commands/*.rb'].each { |file| require file }

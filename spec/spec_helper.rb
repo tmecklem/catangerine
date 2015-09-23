@@ -14,9 +14,9 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  #config.filter_run :focus
-  #config.run_all_when_everything_filtered = true
-  #config.disable_monkey_patching!
+  # config.filter_run :focus
+  # config.run_all_when_everything_filtered = true
+  # config.disable_monkey_patching!
 
   config.warnings = true
 
@@ -24,7 +24,7 @@ RSpec.configure do |config|
     config.default_formatter = 'doc'
   end
 
-  #config.profile_examples = 10
+  # config.profile_examples = 10
   config.order = :random
   Kernel.srand config.seed
 end

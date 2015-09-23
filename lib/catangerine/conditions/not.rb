@@ -1,7 +1,7 @@
 module Catangerine
   module Conditions
-    NotCondition = ->(condition) {
-      ->(command, game_manager) {
+    NotCondition = lambda { |condition|
+      lambda { |command, game_manager|
         result = condition.call(command, game_manager)
         [!result.first, "not (#{result[1]})"]
       }

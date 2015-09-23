@@ -3,4 +3,3 @@ $LOAD_PATH.unshift(__dir__ + '/harnesses')
 
 require 'pry'
 require 'catangerine'
-

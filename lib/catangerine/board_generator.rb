@@ -21,7 +21,7 @@ module Catangerine
 
     def self.validate_options(opts)
       REQUIRED_OPTIONS.each do |required_option|
-        raise ArgumentError, "#{required_option.to_s} is a required option" unless opts.has_key?(required_option)
+        raise ArgumentError, "#{required_option} is a required option" unless opts.key?(required_option)
       end
     end
 
@@ -38,8 +38,8 @@ module Catangerine
       tiles = []
       chits = generate_chits
       @options[:tile_counts].each do |type, count|
-        count.times do |i|
-          chit_number = type!=:desert ? chits.shift : 0
+        count.times do |_i|
+          chit_number = type != :desert ? chits.shift : 0
           tiles << Tile.new(resource_type: type, chit_number: chit_number)
         end
       end
@@ -49,7 +49,7 @@ module Catangerine
     def generate_chits
       chits = []
       @options[:chit_counts].each do |num, count|
-        count.times do |i|
+        count.times do |_i|
           chits << num
         end
       end
@@ -68,7 +68,7 @@ module Catangerine
     def generate_harbors
       harbor_layout = []
       @options[:harbor_counts].each do |type, count|
-        count.times do |i|
+        count.times do |_i|
           harbor_layout << type
         end
       end

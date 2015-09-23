@@ -42,7 +42,7 @@ module Catangerine
     private
 
     def create_players(player_count)
-      @players = player_count.times.map do |player|
+      @players = player_count.times.map do |_player|
         Player.new
       end
     end

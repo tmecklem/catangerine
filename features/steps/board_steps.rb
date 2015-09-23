@@ -1,13 +1,13 @@
 Given(/^a (\d+) player game at the start of round (\d+)$/) do |player_count, game_round|
   self.game_manager = create_game_manager(player_count)
   game_manager.start_game
-  (player_count.to_i*(game_round.to_i-1)).times do
+  (player_count.to_i * (game_round.to_i - 1)).times do
     game_manager.end_turn
   end
   @current_player = game_manager.current_player
 
   expect(game_manager.round).to eq(game_round.to_i),
-    "Expected game to be on round #{game_round}, but was #{game_manager.round}"
+                                "Expected game to be on round #{game_round}, but was #{game_manager.round}"
 end
 
 Then(/^the board should have (standard|expanded) tiles$/) do |game_type|

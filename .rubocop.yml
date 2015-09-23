@@ -1,12 +1,79 @@
-
 AllCops:
+  Include:
+    - Rakefile
+    - config.ru
   Exclude:
-    - 'vendor/**/*'
-    - 'spec/fixtures/**/*'
-    - 'spec/spec_helper*'
-    - '*.gemspec'
-Metrics/LineLength:
-  Max: 99
+    - bin/**/*
+    - client/**/*
+    - config/**/*
+    - db/**/*
+    - script/**/*
+    - spec/support/**/*
+    - vendor/**/*
 
-Style/Documentation:
+Documentation:
+  Enabled: false
+
+ClassAndModuleChildren:
+  Enabled: false
+
+LiteralInInterpolation:
+  Enabled: false
+
+LineLength:
+  Max: 150
+
+StringLiterals:
+  Enabled: false
+
+SignalException:
+  Enabled: false
+
+TrailingComma:
+  Enabled: false
+
+Validation:
+  Enabled: false
+
+IfUnlessModifier:
+  Enabled: false
+
+BlockDelimiters:
+  Enabled: false
+
+PredicateName:
+  Enabled: false
+
+ClassLength:
+  Max: 200
+
+AndOr:
+  Enabled: false
+
+MethodLength:
+  Max: 17
+
+# Disabled for Edudym
+WordArray:
+  Enabled: false
+
+StringLiteralsInInterpolation:
+  Enabled: false
+
+AbcSize:
+  Enabled: true
+
+PerlBackrefs:
+  Enabled: false
+
+RescueModifier:
+  Enabled: false
+
+TrivialAccessors:
+  Enabled: false
+
+CyclomaticComplexity:
+  Max: 7
+
+NumericLiterals:
   Enabled: false

@@ -56,12 +56,12 @@ module Catangerine
     end
 
     def method_missing(method_sym, *arguments, &block)
-      return @attributes[method_sym] if @attributes.has_key?(method_sym)
+      return @attributes[method_sym] if @attributes.key?(method_sym)
       super
     end
 
     def respond_to?(method_sym, include_private = false)
-      return true if @attributes.has_key?(method_sym)
+      return true if @attributes.key?(method_sym)
       super
     end
   end
