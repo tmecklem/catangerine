@@ -16,7 +16,7 @@ end
 
 Then(/^the board should have (standard|expanded) chits$/) do |game_type|
   expected_desert_tile_count = board_configuration(game_type)[:tile_counts][:desert]
-  expected_chit_counts = board_configuration(game_type)[:chit_counts].merge({0=>expected_desert_tile_count})
+  expected_chit_counts = board_configuration(game_type)[:chit_counts].merge(0 => expected_desert_tile_count)
   expect(chit_counts).to eq expected_chit_counts
 end
 
