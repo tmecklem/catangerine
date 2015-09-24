@@ -34,6 +34,11 @@ Then(/^I should receive resource cards from the following tiles:$/) do |table|
   expect(player.resource_cards).to eq expected_resource_cards
 end
 
+Then(/^player (\d+) should have the longest road card$/) do |player_number|
+  player = game_manager.players[player_number.to_i - 1]
+  expect(game_manager.player_with_longest_road_card).to eq player
+end
+
 Then(/^I should receive the longest road card$/) do
   player = game_manager.players.first
   expect(game_manager.player_with_longest_road_card).to eq player
