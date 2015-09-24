@@ -20,6 +20,7 @@ module Catangerine
       @board.add_observer(@longest_road_observer)
       @current_player = @players.first
       @round = 1
+      self
     end
 
     def play(command)

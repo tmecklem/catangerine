@@ -37,7 +37,7 @@ module Catangerine
     end
 
     def to_s
-      location
+      location.to_s
     end
 
     def road

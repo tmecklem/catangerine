@@ -38,25 +38,9 @@ module Observers
     end
 
     def unvisited_connected_segments(segment, unvisited_segments)
-      segment.connected_segments.select do |connected_segment|
-        unvisited_segments.include?(connected_segment)
-      end
-    end
-  end
-
-  # This class represents the concept of a complete section of connected road segments.
-  # A player may have several of these.
-  class ConnectedRoad
-    def road_segments
-      @road_segments ||= []
-    end
-
-    def length
-      road_segments.length
-    end
-
-    def to_s
-      road_segments.map(&:to_s)
+      segment.connected_segments.map { |connected_segment|
+        connected_segment[:road] if unvisited_segments.include?(connected_segment[:road])
+      }.compact
     end
   end
 end

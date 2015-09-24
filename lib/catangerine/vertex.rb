@@ -11,6 +11,10 @@ module Catangerine
       }
     end
 
+    def location
+      Location.new(@hex.location.q, @hex.location.r, direction)
+    end
+
     def touching_hexes
       hex_touch_map = {
         t: [@hex, @hex.neighbor(:ne), @hex.neighbor(:nw)],
