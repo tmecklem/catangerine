@@ -8,6 +8,7 @@ module Catangerine
     }
 
     def initialize(*location)
+      @direction = nil
       if (/^[A-Z]+$/ =~ location.first.to_s) == 0
         @q, @r = convert_name_to_coordinates(location.first)
         @direction = location.last.to_sym if location.size == 2
@@ -45,11 +46,12 @@ module Catangerine
     end
 
     def to_s
-      "#{@q}, #{@r}, #{@direction}"
+      # "#{@q}, #{@r}, #{@direction}"
+      "#{name},#{direction}"
     end
 
     def name
-      @@cached_locations.select { |_key, location| self == location }.keys.first
+      @@cached_locations.detect { |_key, location| [@q, @r] == location }.first
     end
 
     private
