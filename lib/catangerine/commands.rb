@@ -27,9 +27,8 @@ module Catangerine
       end
 
       def validate_command(game_manager)
-        @errors = @conditions.map do |condition|
-          condition.call(self, game_manager)
-        end.select { |result| !result.first }
+        results = @conditions.map { |condition| condition.call(self, game_manager) }
+        @errors = results.select { |result| !result.met? }
         @errors.empty?
       end
     end

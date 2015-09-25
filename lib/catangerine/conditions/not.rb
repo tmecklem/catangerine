@@ -3,7 +3,7 @@ module Catangerine
     NotCondition = lambda { |condition|
       lambda { |command, game_manager|
         result = condition.call(command, game_manager)
-        [!result.first, "not (#{result[1]})"]
+        ConditionResult.new(met: !result.met, detail: "not (#{result[1]})")
       }
     }
   end

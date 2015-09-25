@@ -10,7 +10,7 @@ module Catangerine
         Location.new(edge.hex.location.q, edge.hex.location.r, edge.direction)
       end
       connected = protruding_edge_locations.include?(road_location)
-      [connected, "The settlement and road must be touching"]
+      ConditionResult.new(met: connected, detail: "The settlement and road must be touching")
     }
   end
 end

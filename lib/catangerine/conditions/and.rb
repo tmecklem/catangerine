@@ -5,7 +5,7 @@ module Catangerine
         results = conditions.map do |condition|
           condition.call(command, game_manager)
         end
-        [results.all?(&:first), results]
+        ConditionResult.new(met: results.all?(&:met), detail: results)
       }
     }
   end

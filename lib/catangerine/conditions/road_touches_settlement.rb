@@ -9,7 +9,7 @@ module Catangerine
         protruding_edge_locations = settlement.position.protruding_edges.map(&:location)
         protruding_edge_locations.include?(road_location)
       end
-      [connected, "The road must be touching a settlement"]
+      ConditionResult.new(met: connected, detail: "The road must be touching a settlement")
     }
   end
 end

@@ -13,7 +13,7 @@ module Catangerine
         )
         road && road.player == player
       end
-      [connected, "The road must be touching a road"]
+      ConditionResult.new(met: connected, detail: "The road must be touching a road")
     }
   end
 end
