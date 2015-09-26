@@ -1,3 +1,10 @@
 require "bundler/gem_tasks"
+require 'rspec/core/rake_task'
+require 'cucumber/rake/task'
+require 'rubocop/rake_task'
 
-Catangerine::Application.load_tasks
+RSpec::Core::RakeTask.new
+Cucumber::Rake::Task.new
+RuboCop::RakeTask.new
+
+task default: [:rubocop, :spec, :cucumber]
