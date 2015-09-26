@@ -7,7 +7,7 @@ When(/^(#{PLAYER}) (?:tries to place|places)? a settlement at (#{VERTEX}) and a 
   game_manager.play(@command)
 end
 
-When(/^(#{PLAYER}) (has cards and )?(?:tries to place|places)? a settlement at (#{VERTEX})$/) do |player, has_cards, vertex|
+When(/^(#{PLAYER}) (has cards and )?(?:tries to place|places)? a settlement at (#{VERTEX})$/) do |player, _has_cards, vertex|
   @command = Catangerine::Commands::AddSettlement.new(player, settlement_location: vertex)
   game_manager.play(@command)
 end

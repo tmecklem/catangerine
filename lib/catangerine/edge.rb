@@ -8,30 +8,6 @@ module Catangerine
       @direction = direction
     end
 
-    def connections
-      @connections_map ||= {
-        nw: [
-          { edge: @hex.neighbor(:ne).edges[:w], vertex: @hex.vertices[:t] },
-          { edge: @hex.neighbor(:ne).edges[:sw], vertex: @hex.vertices[:t] },
-          { edge: @hex.edges[:w], vertex: @hex.neighbor(:nw).vertices[:b] },
-          { edge: @hex.neighbor(:nw).edges[:sw], vertex: @hex.neighbor(:nw).vertices[:b] }
-        ],
-        w: [
-          { edge: @hex.edges[:nw], vertex: @hex.neighbor(:nw).vertices[:b] },
-          { edge: @hex.edges[:sw], vertex: @hex.neighbor(:sw).vertices[:t] },
-          { edge: @hex.neighbor(:nw).edges[:sw], vertex:  @hex.neighbor(:nw).vertices[:b] },
-          { edge: @hex.neighbor(:sw).edges[:nw], vertex: @hex.neighbor(:sw).vertices[:t] }
-        ],
-        sw: [
-          { edge: @hex.edges[:w], vertex: @hex.neighbor(:sw).vertices[:t] },
-          { edge: @hex.neighbor(:sw).edges[:nw], vertex: @hex.neighbor(:sw).vertices[:t] },
-          { edge: @hex.neighbor(:se).edges[:nw], vertex: @hex.vertices[:b] },
-          { edge: @hex.neighbor(:se).edges[:w], vertex: @hex.vertices[:b] }
-        ]
-      }
-      @connections_map[direction]
-    end
-
     def location
       Location.new(hex.location.q, hex.location.r, direction)
     end
@@ -42,6 +18,37 @@ module Catangerine
 
     def road
       object
+    end
+
+    def connections
+      send("#{direction}_connections")
+    end
+
+    def nw_connections
+      [
+        { edge: @hex.ne_neighbor.w_edge, vertex: @hex.top_vertex },
+        { edge: @hex.ne_neighbor.sw_edge, vertex: @hex.top_vertex },
+        { edge: @hex.w_edge, vertex: @hex.nw_neighbor.bottom_vertex },
+        { edge: @hex.nw_neighbor.sw_edge, vertex: @hex.nw_neighbor.bottom_vertex }
+      ]
+    end
+
+    def w_connections
+      [
+        { edge: @hex.nw_edge, vertex: @hex.nw_neighbor.bottom_vertex },
+        { edge: @hex.sw_edge, vertex: @hex.sw_neighbor.top_vertex },
+        { edge: @hex.nw_neighbor.sw_edge, vertex:  @hex.nw_neighbor.bottom_vertex },
+        { edge: @hex.sw_neighbor.nw_edge, vertex: @hex.sw_neighbor.top_vertex }
+      ]
+    end
+
+    def sw_connections
+      [
+        { edge: @hex.w_edge, vertex: @hex.sw_neighbor.top_vertex },
+        { edge: @hex.sw_neighbor.nw_edge, vertex: @hex.sw_neighbor.top_vertex },
+        { edge: @hex.se_neighbor.nw_edge, vertex: @hex.bottom_vertex },
+        { edge: @hex.se_neighbor.w_edge, vertex: @hex.bottom_vertex }
+      ]
     end
   end
 end

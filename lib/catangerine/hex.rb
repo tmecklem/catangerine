@@ -1,5 +1,9 @@
 module Catangerine
   class Hex
+    NEIGHBORS = {
+      w: [-1, 0], sw: [-1, 1], se: [0, 1], e: [1, 0], ne: [1, -1], nw: [0, -1]
+    }
+
     attr_accessor :face
     attr_reader :location, :edges, :vertices
 
@@ -17,10 +21,6 @@ module Catangerine
       }
     end
 
-    NEIGHBORS = {
-      w: [-1, 0], sw: [-1, 1], se: [0, 1], e: [1, 0], ne: [1, -1], nw: [0, -1]
-    }
-
     def face=(face)
       @face = face
       face.position = self
@@ -37,5 +37,16 @@ module Catangerine
         str << "direction: #{v}\n"
       end
     end
+
+    NEIGHBORS.keys.each do |direction|
+      define_method("#{direction}_neighbor") { neighbor(direction) }
+    end
+
+    [:sw, :w, :nw].each do |direction|
+      define_method("#{direction}_edge") { edges[direction] }
+    end
+
+    define_method("top_vertex") { vertices[:t] }
+    define_method("bottom_vertex") { vertices[:b] }
   end
 end
