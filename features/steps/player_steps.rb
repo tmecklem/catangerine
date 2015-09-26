@@ -15,6 +15,7 @@ Then(/^(#{PLAYER}) should receive resource cards from the following tiles:$/) do
   table.hashes.map do |row|
     location = Catangerine::Location.new(row['tile'])
     tile = board.hex_at(location).face
+    next unless tile.resource_type # DESERT gives no resources!
     expected_resource_cards[tile.resource_type] ||= 0
     expected_resource_cards[tile.resource_type] += 1
   end
