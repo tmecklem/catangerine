@@ -32,8 +32,9 @@ Then(/^the board should contain a settlement at (#{VERTEX})$/) do |vertex|
   expect(game_manager.board.settlement_at(vertex).player).to eq(@current_player)
 end
 
-Then(/^the board should contain a road at (#{EDGE})$/) do |edge|
-  expect(game_manager.board.road_at(edge).player).to eq(@current_player)
+Then(/^the board should contain a road for (#{PLAYER}) at (#{EDGE})$/) do |player, edge|
+  expect(game_manager.board.road_at(edge)).not_to be_nil
+  expect(game_manager.board.road_at(edge).player).to eq player
 end
 
 Given(/^the board has the following items:$/) do |table|

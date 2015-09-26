@@ -11,6 +11,10 @@ module Catangerine
       def met?
         met
       end
+
+      def unmet?
+        !met?
+      end
     end
   end
 end

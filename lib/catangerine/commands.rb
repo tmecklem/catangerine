@@ -28,7 +28,7 @@ module Catangerine
 
       def validate_command(game_manager)
         results = @conditions.map { |condition| condition.call(self, game_manager) }
-        @errors = results.select { |result| !result.met? }
+        @errors = results.select(&:unmet?).map(&:detail).join(' and ')
         @errors.empty?
       end
     end
