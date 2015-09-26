@@ -4,7 +4,6 @@ Given(/^a (\d+) player game at the start of round (\d+)$/) do |player_count, gam
   (player_count.to_i * (game_round.to_i - 1)).times do
     game_manager.end_turn
   end
-  @current_player = game_manager.current_player
 
   expect(game_manager.round).to eq(game_round.to_i),
                                 "Expected game to be on round #{game_round}, but was #{game_manager.round}"
@@ -28,13 +27,18 @@ Then(/^the board should be in (.*?) state$/) do |state|
   expect(board.state).to eq state.to_sym
 end
 
-Then(/^the board should contain a settlement at (#{VERTEX})$/) do |vertex|
-  expect(game_manager.board.settlement_at(vertex).player).to eq(@current_player)
+Then(/^the board should contain a settlement for (#{PLAYER}) at (#{VERTEX})$/) do |player, vertex|
+  expect(game_manager.board.settlement_at(vertex).player).to eq(player)
 end
 
 Then(/^the board should contain a road for (#{PLAYER}) at (#{EDGE})$/) do |player, edge|
   expect(game_manager.board.road_at(edge)).not_to be_nil
   expect(game_manager.board.road_at(edge).player).to eq player
+end
+
+Then(/^the board should not contain a road for (#{PLAYER}) at (#{EDGE})$/) do |player, edge|
+  actual_player = game_manager.board.road_at(edge) && game_manager.board.road_at(edge).player
+  expect(actual_player).not_to eq player
 end
 
 Given(/^the board has the following items:$/) do |table|

@@ -1,14 +1,27 @@
 module Catangerine
   class Tile
-    attr_accessor :position, :resource_type, :chit_number
+    RESOURCE_TYPES = {
+      hills: :brick,
+      forest: :lumber,
+      mountains: :ore,
+      fields: :grain,
+      pasture: :wool,
+      desert: nil
+    }
 
-    def initialize(attrs)
-      @resource_type = attrs[:resource_type]
-      @chit_number = attrs[:chit_number]
+    attr_accessor :position, :terrain, :chit_number
+
+    def initialize(terrain:, chit_number:)
+      @terrain = terrain
+      @chit_number = chit_number
     end
 
     def location
       position.location
+    end
+
+    def resource_type
+      RESOURCE_TYPES[terrain]
     end
 
     def to_s

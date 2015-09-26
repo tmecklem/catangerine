@@ -4,7 +4,7 @@ module KnowsAboutBoard
   end
 
   def tile_counts
-    Hash[board.tiles.group_by(&:resource_type).map { |k, v| [k, v.size] }]
+    Hash[board.tiles.group_by(&:terrain).map { |k, v| [k, v.size] }]
   end
 
   def chit_counts

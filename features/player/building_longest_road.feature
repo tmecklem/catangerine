@@ -1,7 +1,6 @@
 Feature: Building longest road
 
   Scenario: Build 5 connected roads
-
     Given a 3 player game at the start of round 3
     And the board has the following items:
       | type       | location | player |
@@ -11,8 +10,8 @@ Feature: Building longest road
       | road       | A,sw     |      1 |
       | road       | E,w      |      1 |
       | road       | D,w      |      1 |
-    When I place a road at E,sw
-    Then I should receive the longest road card
+    When player 1 has cards and places a road at E,sw
+    Then player 1 should receive the longest road card
 
   Scenario: Building 5 connected roads that forked and not a single line
     Given a 3 player game at the start of round 3
@@ -24,8 +23,8 @@ Feature: Building longest road
       | road       | D,nw     |      1 |
       | road       | E,w      |      1 |
       | road       | D,w      |      1 |
-    When I place a road at A,nw
-    Then I should not receive the longest road card
+    When player 1 places a road at A,nw
+    Then player 1 should not receive the longest road card
 
   Scenario: Road separated by other player's settlement
     Given a 3 player game at the start of round 3
@@ -38,8 +37,8 @@ Feature: Building longest road
       | road       | A,sw     |      1 |
       | road       | E,w      |      1 |
       | road       | D,w      |      1 |
-    When I place a road at N,nw
-    Then I should not receive the longest road card
+    When player 1 places a road at N,nw
+    Then player 1 should not receive the longest road card
 
   Scenario: Taking longest road from another player
     Given a 3 player game at the start of round 3
@@ -59,5 +58,5 @@ Feature: Building longest road
       | road       | E,nw     |      1 |
       | road       | F,w      |      1 |
     Then player 2 should have the longest road card
-    When I place a road at G,sw
-    Then I should receive the longest road card
+    When player 1 has cards and places a road at G,sw
+    Then player 1 should receive the longest road card

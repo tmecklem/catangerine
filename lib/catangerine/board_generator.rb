@@ -40,7 +40,7 @@ module Catangerine
       @options[:tile_counts].each do |type, count|
         count.times do |_i|
           chit_number = type != :desert ? chits.shift : 0
-          tiles << Tile.new(resource_type: type, chit_number: chit_number)
+          tiles << Tile.new(terrain: type, chit_number: chit_number)
         end
       end
       tiles.shuffle!

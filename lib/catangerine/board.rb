@@ -63,10 +63,10 @@ module Catangerine
       publish_event(:robber_moved, location)
     end
 
-    def tiles(resource_type = nil)
+    def tiles(terrain = nil)
       tiles = hexes.values.map(&:face).compact
-      unless resource_type.nil?
-        tiles = tiles.select { |tile| tile.resource_type == resource_type }
+      unless terrain.nil?
+        tiles = tiles.select { |tile| tile.terrain == terrain }
       end
       tiles
     end
