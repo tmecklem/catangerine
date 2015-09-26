@@ -9,12 +9,16 @@ module Catangerine
 
     def connected_segments
       edge.connections.map { |connection|
-        { road: connection[:edge].road, vertex: connection[:vertex] } if belongs_to_player(connection) && unblocked(connection)
+        connection[:edge].road if belongs_to_player(connection) && unblocked(connection)
       }.compact
     end
 
     def to_s
       edge.to_s
+    end
+
+    def vertices
+      position.connections.map { |connection| connection[:vertex] }
     end
 
     private

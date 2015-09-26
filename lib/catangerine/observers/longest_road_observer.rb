@@ -14,7 +14,7 @@ module Observers
     private
 
     def longest_player_road_length(player_roads)
-      ConnectedRoad.new(road_segments: player_roads).length
+      LongestRoad.new(road_segments: player_roads).length
     end
   end
 end

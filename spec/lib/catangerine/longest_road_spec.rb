@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ConnectedRoad do
+describe LongestRoad do
   let(:game_manager) { Catangerine::GameManager.new(player_count: 1).start_game }
   let(:board) { game_manager.board }
   let(:road_segments) {
@@ -11,7 +11,7 @@ describe ConnectedRoad do
       road
     end
   }
-  let(:connected_road) { ConnectedRoad.new(road_segments: road_segments) }
+  let(:connected_road) { LongestRoad.new(road_segments: road_segments) }
 
   context '#longest_path' do
     context 'simple path' do
