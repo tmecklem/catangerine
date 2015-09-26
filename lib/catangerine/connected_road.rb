@@ -17,7 +17,7 @@ class ConnectedRoad
     }.max_by(&:length)
   end
 
-  #performs a depth first traversal of the graph from segment to all unvisited neighbor segments
+  # performs a depth first traversal of the graph from segment to all unvisited neighbor segments
   # returns the longest path including all possible paths from visited_segments through segment
   def longest_path_from_segment(segment, visited_segments = [])
     visited_segments << segment
