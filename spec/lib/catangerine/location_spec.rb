@@ -19,12 +19,12 @@ module Catangerine
 
     it 'moves in expanding concentric circles (I)' do
       s = Location.new('I')
-      expect([s.q, s.r]).to eq [-1, -1]
+      expect([s.q, s.r]).to eq [0, -2]
     end
 
     it 'continues at AA after A-Z' do
       s = Location.new('AA')
-      expect([s.q, s.r]).to eq [-2, 3]
+      expect([s.q, s.r]).to eq [-3, 2]
     end
 
     it 'accepts a direction component after the name' do
