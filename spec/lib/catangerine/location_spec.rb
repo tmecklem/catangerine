@@ -20,7 +20,7 @@ module Catangerine
     describe '#<=>' do
       context 'location coords are the same' do
         it 'returns 0 if both directions are nil' do
-          expect(Location.new('A') <=> Location.new('A')).to eq 0
+          expect(Location.new('A') <=> Location.new(0, 0)).to eq 0
         end
 
         it 'returns -1 if left side direction is nil and right side direction is set' do
@@ -28,7 +28,7 @@ module Catangerine
         end
 
         it 'returns 0 if both directions match' do
-          expect(Location.new('A', :t) <=> Location.new('A', :t)).to eq 0
+          expect(Location.new(0, 0, :t) <=> Location.new('A', :t)).to eq 0
         end
       end
     end

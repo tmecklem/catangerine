@@ -25,16 +25,8 @@ module Catangerine
 
     def adjacent_vertices
       @vertex_adjacency_map ||= {
-        t: [
-          @hex.neighbor(:nw).vertices[:b],
-          @hex.neighbor(:ne).vertices[:b],
-          @hex.neighbor(:nw).neighbor(:ne).vertices[:b]
-        ],
-        b: [
-          @hex.neighbor(:sw).vertices[:t],
-          @hex.neighbor(:se).vertices[:t],
-          @hex.neighbor(:sw).neighbor(:se).vertices[:t]
-        ]
+        t: top_adjacencies,
+        b: bottom_adjacencies
       }
       @vertex_adjacency_map[direction]
     end
@@ -42,14 +34,14 @@ module Catangerine
     def protruding_edges
       @protruding_edges_map ||= {
         t: [
-          @hex.edges[:nw],
-          @hex.neighbor(:ne).edges[:sw],
-          @hex.neighbor(:ne).edges[:w]
+          @hex.nw_edge,
+          @hex.ne_neighbor.sw_edge,
+          @hex.ne_neighbor.w_edge
         ],
         b: [
-          @hex.edges[:sw],
-          @hex.neighbor(:se).edges[:nw],
-          @hex.neighbor(:se).edges[:w]
+          @hex.sw_edge,
+          @hex.se_neighbor.nw_edge,
+          @hex.se_neighbor.w_edge
         ]
       }
       @protruding_edges_map[direction]
@@ -67,6 +59,24 @@ module Catangerine
     def respond_to?(method_sym, include_private = false)
       return true if @attributes.key?(method_sym)
       super
+    end
+
+    private
+
+    def top_adjacencies
+      [
+        @hex.nw_neighbor.bottom_vertex,
+        @hex.ne_neighbor.bottom_vertex,
+        @hex.nw_neighbor.ne_neighbor.bottom_vertex
+      ]
+    end
+
+    def bottom_adjacencies
+      [
+        @hex.sw_neighbor.top_vertex,
+        @hex.se_neighbor.top_vertex,
+        @hex.sw_neighbor.se_neighbor.top_vertex
+      ]
     end
   end
 end
