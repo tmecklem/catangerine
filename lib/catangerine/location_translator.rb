@@ -9,35 +9,47 @@ module Catangerine
     end
 
     def self.location_for(name)
-      build_location_array(names.last) unless cached_locations.key?(names.last)
+      build_location_array(name) unless cached_locations[name]
       cached_locations[name]
     end
 
     def self.name_for(location)
-      build_location_array('ZZ') unless cached_locations.key?('ZZ')
+      build_location_array('ZZ') unless cached_locations['ZZ']
+
       cached_locations.detect { |_key, l| location == l }.first
     end
 
-    def self.names
-      ("A".."ZZ").to_a
+    def self.names(end_name)
+      ("A"..end_name).to_a
     end
 
     def self.build_location_array(name)
-      hex = [0, 0]
-      remaining_names = names
-      cached_locations[remaining_names.shift] ||= hex
-      scale = 0
-      until cached_locations[name] || remaining_names.empty?
-        scale += 1
-        hex = [hex, NEIGHBORS[:ne]].transpose.map { |x| x.reduce(:+) }
-        NEIGHBORS.keys.each do |direction|
-          scale.times do
-            break if cached_locations[name] || remaining_names.empty?
-            hex = [hex, NEIGHBORS[direction]].transpose.map { |x| x.reduce(:+) }
+      remaining_names = names(name)
+      root = [0, 0]
+      cached_locations[remaining_names.shift] ||= root
+      build_locations_in_counter_clockwise_concentric_circles(root, remaining_names)
+    end
+
+    def self.build_locations_in_counter_clockwise_concentric_circles(root, remaining_names, radius = 0)
+      hex = root
+      radius = 0
+      until remaining_names.empty? # stop when we run out
+        # move hex pointer NE, but don't store it so that we start in the right spot
+        hex = neighbor(hex, :ne)
+        radius += 1 # widen the concentric circle one more
+        NEIGHBORS.keys.each do |direction| # turn clockwise one edge
+          radius.times do # go straight in this direction radius times
+            break if remaining_names.empty? # stop when we run out
+            hex = neighbor(hex, direction)
             cached_locations[remaining_names.shift] ||= hex
           end
         end
       end
+    end
+
+    # takes a hex coord array and a direction and returns hex coords for neighbor in that direction
+    def self.neighbor(hex, direction)
+      hex.zip(NEIGHBORS[direction]).map { |x| x.reduce(:+) }
     end
   end
 end
