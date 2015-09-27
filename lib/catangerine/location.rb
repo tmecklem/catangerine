@@ -3,19 +3,14 @@ module Catangerine
     include Comparable
     attr_accessor :q, :r, :direction
 
-    NEIGHBORS = {
-      w: [-1, 0], sw: [-1, 1], se: [0, 1], e: [1, 0], ne: [1, -1], nw: [0, -1]
-    }
-
     def initialize(*location)
-      @direction = nil
-      if (/^[A-Z]+$/ =~ location.first.to_s) == 0
-        @q, @r = convert_name_to_coordinates(location.first)
-        @direction = location.last.to_sym if location.size == 2
+      location_components = location.dup
+      if (/^[A-Z]+$/ =~ location_components.first.to_s) == 0
+        @q, @r = LocationTranslator.location_for(location_components.shift)
       else
-        @q, @r = location[0..1]
-        @direction = location.last.to_sym if location.size == 3
+        @q, @r = location_components.shift(2)
       end
+      @direction = location_components.map(&:to_sym).first
     end
 
     def without_direction
@@ -24,10 +19,8 @@ module Catangerine
     end
 
     def <=>(other)
-      return q <=> other.q if (q <=> other.q) != 0
-      return r <=> other.r if (r <=> other.r) != 0
-      return direction <=> other.direction if (direction <=> other.direction) != 0
-      0
+      return compare_position(other) if compare_position(other) != 0
+      compare_direction(other)
     end
 
     def ==(other)
@@ -36,49 +29,36 @@ module Catangerine
     end
 
     def to_a
-      [@q, @r, @direction].compact
+      [q, r, direction].compact
     end
 
     alias_method :eql?, :==
 
     def hash
-      @q ^ @r ^ (@direction || 0)
+      q ^ r ^ (direction || 0)
     end
 
     def to_s
-      # "#{@q}, #{@r}, #{@direction}"
       "#{name},#{direction}"
     end
 
     def name
-      @@cached_locations.detect { |_key, location| [@q, @r] == location }.first
+      LocationTranslator.name_for([q, r])
     end
 
     private
 
-    def convert_name_to_coordinates(name)
-      @@cached_locations ||= build_location_array(100)
-      @@cached_locations[name]
+    def compare_position(other)
+      return q <=> other.q if (q <=> other.q) != 0
+      return r <=> other.r if (r <=> other.r) != 0
+      0
     end
 
-    def build_location_array(size)
-      location_array = {}
-      names = ("A".."ZZ").to_a[0...size]
-      hex = [0, 0]
-      location_array[names.shift] = hex
-      scale = 0
-      until names.empty?
-        scale += 1
-        hex = [hex, NEIGHBORS[:ne]].transpose.map { |x| x.reduce(:+) }
-        NEIGHBORS.keys.each do |direction|
-          scale.times do
-            break if names.empty?
-            hex = [hex, NEIGHBORS[direction]].transpose.map { |x| x.reduce(:+) }
-            location_array[names.shift] = hex
-          end
-        end
-      end
-      @@cached_locations = location_array
+    def compare_direction(other)
+      return 0 if direction.nil? && other.direction.nil?
+      return -1 if direction.nil?
+      return 1 if other.direction.nil?
+      direction <=> other.direction
     end
   end
 end

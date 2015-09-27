@@ -2,31 +2,6 @@ require 'spec_helper'
 
 module Catangerine
   describe Location do
-    it 'starts in the center as A' do
-      s = Location.new('A')
-      expect([s.q, s.r]).to eq [0, 0]
-    end
-
-    it 'continues to the nw neighbor as B' do
-      s = Location.new('B')
-      expect([s.q, s.r]).to eq [0, -1]
-    end
-
-    it 'names tiles in counterclockwise assignment (C)' do
-      s = Location.new('C')
-      expect([s.q, s.r]).to eq [-1, 0]
-    end
-
-    it 'moves in expanding concentric circles (I)' do
-      s = Location.new('I')
-      expect([s.q, s.r]).to eq [0, -2]
-    end
-
-    it 'continues at AA after A-Z' do
-      s = Location.new('AA')
-      expect([s.q, s.r]).to eq [-3, 2]
-    end
-
     it 'accepts a direction component after the name' do
       s = Location.new('A', 't')
       expect([s.q, s.r, s.direction]).to eq [0, 0, :t]
@@ -40,6 +15,22 @@ module Catangerine
     it 'accepts a direction component after coords' do
       s = Location.new(0, 0, 't')
       expect([s.q, s.r, s.direction]).to eq [0, 0, :t]
+    end
+
+    describe '#<=>' do
+      context 'location coords are the same' do
+        it 'returns 0 if both directions are nil' do
+          expect(Location.new('A') <=> Location.new('A')).to eq 0
+        end
+
+        it 'returns -1 if left side direction is nil and right side direction is set' do
+          expect(Location.new('A') <=> Location.new('A', :t)).to eq(-1)
+        end
+
+        it 'returns 0 if both directions match' do
+          expect(Location.new('A', :t) <=> Location.new('A', :t)).to eq 0
+        end
+      end
     end
   end
 end

@@ -1,7 +1,7 @@
 module Catangerine
   module ContainsHexGrid
     def hex_at(location)
-      hexes[location.without_direction] ||= Hex.new(self, location)
+      hexes[location.without_direction] ||= Hex.new(self, location.without_direction)
     end
 
     protected
