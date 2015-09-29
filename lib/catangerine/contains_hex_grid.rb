@@ -4,8 +4,6 @@ module Catangerine
       hexes[location.without_direction] ||= Hex.new(self, location.without_direction)
     end
 
-    protected
-
     def edge_at(location)
       hex_at(location).edges[location.direction]
     end
@@ -13,6 +11,8 @@ module Catangerine
     def vertex_at(location)
       hex_at(location).vertices[location.direction]
     end
+
+    protected
 
     def set_vertex_object(object, location, object_type)
       vertex = vertex_at(location)

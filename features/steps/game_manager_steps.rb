@@ -7,9 +7,16 @@ When(/^(#{PLAYER}) (?:tries to place|places)? a settlement at (#{VERTEX}) and a 
   game_manager.play(@command)
 end
 
-When(/^(#{PLAYER}) (has cards and )?(?:tries to place|places)? a settlement at (#{VERTEX})$/) do |player, _has_cards, vertex|
+When(/^(#{PLAYER}) (has cards and )?(?:tries to place|places)? a settlement at (#{VERTEX})$/) do |player, has_cards, vertex|
+  if has_cards
+    player.acquire_cards(:brick, 1)
+    player.acquire_cards(:lumber, 1)
+    player.acquire_cards(:wool, 1)
+    player.acquire_cards(:grain, 1)
+  end
   @command = Catangerine::Commands::AddSettlement.new(player, settlement_location: vertex)
   game_manager.play(@command)
+  puts @command.errors unless @command.success
 end
 
 When(/^(#{PLAYER}) (has cards and )?(?:tries to place|places)? a road at (#{EDGE})$/) do |player, has_cards, edge|

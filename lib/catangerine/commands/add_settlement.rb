@@ -5,6 +5,13 @@ module Catangerine
 
       protected
 
+      def command_conditions
+        Or.call(
+          AndCondition.call(HasSettlementCards, SettlementTouchesRoad),
+          SetupRound
+        )
+      end
+
       def execute_after_validation(game_manager)
         @settlement = Catangerine::Settlement.new(@player)
         @success = game_manager.board.add_settlement(@settlement, attributes[:settlement_location])
