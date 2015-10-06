@@ -43,8 +43,9 @@ module Catangerine
     private
 
     def create_players(player_count)
-      @players = player_count.times.map do |_player|
-        Player.new
+      player_colors = [:red, :blue, :white, :orange, :green, :brown]
+      @players = player_count.times.map do |index|
+        Player.new(color: player_colors[index], position: index)
       end
     end
   end

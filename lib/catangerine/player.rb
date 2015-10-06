@@ -1,6 +1,11 @@
 module Catangerine
   class Player
-    attr_reader :resource_cards
+    attr_reader :resource_cards, :color, :position
+
+    def initialize(color:, position:)
+      @color = color
+      @position = position
+    end
 
     def acquire_cards(type, count)
       resource_cards[type.to_sym] += count

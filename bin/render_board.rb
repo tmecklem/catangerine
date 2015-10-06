@@ -4,6 +4,7 @@ require 'catangerine'
 require 'cairo'
 require 'ostruct'
 require 'matrix'
+require_relative '../lib/catangerine/render'
 
 width = 600
 height = 600
@@ -13,72 +14,27 @@ stride = nil
 
 module Board2D
   def render(cr, origin)
-    # fill background with white
     cr.set_source_color("#fffc")
     cr.paint
 
     hexes.each_with_index do |(location, hex), i|
-      hex.extend(Hex2D)
-      hex.render(cr, origin, i)
+      hex.extend(Catangerine::Hex2d)
+      hex.render(cr, origin, 30, i)
     end
   end
 end
 
-module Hex2D
 
-  TILE_COLORS = {
-    hills: :light_green,
-    pasture: :green,
-    mountains: :gray,
-    fields: :yellow,
-    forest: :dark_green,
-    desert: :brown
-  }
+game_manager = Catangerine::GameManager.new(player_count: 4).start_game
+board = game_manager.board
+player1 = game_manager.players[0]
+add_command = Catangerine::Commands::AddSettlementAndRoad.new(player1,
+  settlement_location: Catangerine::Location.new('A', 't'),
+  road_location: Catangerine::Location.new('A', 'nw')
+)
+game_manager.play(add_command)
 
-  def center
-    @size = 30
-    height = @size*2
-    q_basis = Matrix[ [Math.sqrt(3)/2 * height, 0] ]
-    r_basis = Matrix[ [(Math.sqrt(3)/2 * height)/2, 3.0/4 * height] ]
-    pos = q_basis * location.q + r_basis * location.r
-    OpenStruct.new(x: pos[0,0], y: pos[0,1])
-  end
-
-  def render(cr, origin, i)
-    if self.face
-      0.upto(5) do |i|
-        angle = 2 * Math::PI / 6 * (i + 0.5)
-        vertex = OpenStruct.new(
-          x: center[:x] + @size * Math.cos(angle),
-          y: center[:y] + @size * Math.sin(angle)
-        )
-        cr.move_to(vertex.x + origin.x, vertex.y + origin.y) if i==0
-        cr.line_to(vertex.x + origin.x, vertex.y + origin.y) unless i==0
-      end
-      cr.close_path
-
-      cr.set_source_color(TILE_COLORS[self.face.resource_type])
-      cr.fill_preserve
-      cr.set_source_color(:gray)
-      cr.set_line_join(Cairo::LINE_JOIN_MITER)
-      cr.set_line_width(1)
-      cr.stroke
-
-      cr.set_source_rgb 0.1, 0.1, 0.1
-
-      cr.select_font_face "Purisa", Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_NORMAL
-      cr.set_font_size 13
-
-      cr.move_to center.x + origin.x - @size/2, center.y + origin.y + @size/4
-      cr.show_text "#{location.name} #{self.face.resource_type[0..1]}"
-
-    end
-  end
-end
-
-board = Catangerine::BoardGenerator.new(Catangerine::BoardConfiguration.configuration(:expanded)).generate
 board.extend(Board2D)
-
 Cairo::ImageSurface.new(width, height) do |surface|
   cr = Cairo::Context.new(surface)
   origin = OpenStruct.new(x: width/2, y: height/2)
