@@ -6,7 +6,8 @@ module Catangerine
       def command_conditions
         AndCondition.call(
           Or.call(RoadTouchesSettlement, RoadTouchesRoad, SetupRound),
-          Or.call(HasRoadCards, SetupRound)
+          Or.call(HasRoadCards, SetupRound),
+          PlayerHasARoadLeft
         )
       end
 

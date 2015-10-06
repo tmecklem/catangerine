@@ -1,14 +1,16 @@
 module Catangerine
   class GameManager
     DEFAULT_OPTIONS = {
-      player_count: 3
+      player_count: 3,
+      number_of_roads: 15
     }
 
-    attr_reader :board, :players, :current_player, :round
+    attr_reader :board, :players, :current_player, :round, :number_of_roads
 
     def initialize(opts = {})
       @options = DEFAULT_OPTIONS.merge(opts)
       player_count = @options[:player_count]
+      @number_of_roads = @options[:number_of_roads]
       @options[:board] = BoardConfiguration.configuration(player_count < 5 ? "standard" : "expanded")
       create_players(player_count)
       @commands ||= []
