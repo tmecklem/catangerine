@@ -77,17 +77,20 @@ module Catangerine
       end.compact.uniq
     end
 
-    def settlements
-      hexes.values.map(&:vertices).each_with_object([]) do |vertices, acc|
+    def settlements(player = nil)
+      settlements = hexes.values.map(&:vertices).each_with_object([]) do |vertices, acc|
         acc.concat(vertices.values.map(&:settlement))
       end.compact.uniq
+      return settlements unless player
+      settlements.select { |settlement| settlement.player == player }
     end
 
     def roads(player = nil)
       roads = hexes.values.map(&:edges).each_with_object([]) do |edges, acc|
         acc.concat(edges.values.map(&:road))
       end.compact.uniq
-      roads.select { |road| player.nil? || road.player == player }
+      return roads unless player
+      roads.select { |road| road.player == player }
     end
   end
 end

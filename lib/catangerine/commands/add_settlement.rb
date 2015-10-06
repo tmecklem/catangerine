@@ -7,7 +7,7 @@ module Catangerine
 
       def command_conditions
         Or.call(
-          AndCondition.call(HasSettlementCards, SettlementTouchesRoad),
+          AndCondition.call(HasSettlementCards, SettlementTouchesRoad, PlayerHasASettlementLeft),
           SetupRound
         )
       end

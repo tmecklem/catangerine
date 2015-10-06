@@ -1,9 +1,13 @@
+Given(/^the number of settlement pieces is (\d+) per player$/) do |number_of_settlements|
+  @number_of_settlements = number_of_settlements.to_i
+end
+
 Given(/^the number of road pieces is (\d+) per player$/) do |number_of_roads|
   @number_of_roads = number_of_roads.to_i
 end
 
 Given(/^a (\d+) player game at the start of round (\d+)$/) do |player_count, game_round|
-  self.game_manager = create_game_manager(player_count, number_of_roads: @number_of_roads || 15)
+  self.game_manager = create_game_manager(player_count)
   game_manager.start_game
   (player_count.to_i * (game_round.to_i - 1)).times do
     game_manager.end_turn

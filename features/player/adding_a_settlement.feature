@@ -53,3 +53,15 @@ Feature: Adding a Settlement
     Given a 3 player game at the start of round 3
     When player 1 tries to place a settlement at A,t
     Then it should not succeed
+
+  Scenario: Fail to add a settlement when player has no more settlements left
+    Given the number of settlement pieces is 1 per player
+    And a 3 player game at the start of round 3
+    And the board has the following items:
+      | type       | location | player |
+      | settlement |     A,t  |      1 |
+      | road       |     A,nw |      1 |
+      | road       |     A,w  |      1 |
+      | road       |     A,sw |      1 |
+    When player 1 has cards and tries to place a settlement at A,b
+    Then it should not succeed
