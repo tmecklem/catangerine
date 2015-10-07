@@ -52,12 +52,12 @@ Then(/^it should not succeed$/) do
   expect(@command.success).to be_falsy
 end
 
-Then(/^(#{PLAYER}) should have the longest road card$/) do |player|
+Then(/^(#{PLAYER}) should (?:have|receive)? the longest road card$/) do |player|
   expect(game_manager.player_with_longest_road_card).to eq player
 end
 
-Then(/^(#{PLAYER}) should receive the longest road card$/) do |player|
-  expect(game_manager.player_with_longest_road_card).to eq player
+Then(/^nobody should have the longest road card$/) do
+  expect(game_manager.player_with_longest_road_card).to eq nil
 end
 
 Then(/^(#{PLAYER}) should not receive the longest road card$/) do |player|

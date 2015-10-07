@@ -60,3 +60,49 @@ Feature: Building longest road
     Then player 2 should have the longest road card
     When player 1 has cards and places a road at G,sw
     Then player 1 should receive the longest road card
+    
+  Scenario: Breaking longest road when a single player has new longest road
+    Given a 3 player game at the start of round 3
+    And the board has the following items:
+      | type       | location | player |
+      | settlement | J,t      |      2 |
+      | road       | J,nw     |      2 |
+      | road       | J,w      |      2 |
+      | road       | K,nw     |      2 |
+      | road       | K,w      |      2 |
+      | road       | K,sw     |      2 |
+    And the board has the following items:
+      | type       | location | player |
+      | settlement | A,t      |      1 |
+      | road       | G,sw     |      1 |
+      | road       | A,nw     |      1 |
+      | road       | B,sw     |      1 |
+      | road       | C,nw     |      1 |
+      | road       | J,sw     |      1 |
+    Then player 2 should have the longest road card
+    When player 1 has cards and places a settlement at K,t
+    Then player 1 should receive the longest road card
+
+  Scenario: Breaking longest road when a two players are tied for new longest road
+    Given a 3 player game at the start of round 3
+    And the board has the following items:
+      | type       | location | player |
+      | settlement | J,t      |      2 |
+      | road       | J,nw     |      2 |
+      | road       | J,w      |      2 |
+      | road       | K,nw     |      2 |
+      | road       | K,w      |      2 |
+      | road       | K,sw     |      2 |
+      | road       | L,w      |      2 |
+      | road       | L,sw     |      2 |
+    And the board has the following items:
+      | type       | location | player |
+      | settlement | A,t      |      1 |
+      | road       | G,sw     |      1 |
+      | road       | A,nw     |      1 |
+      | road       | B,sw     |      1 |
+      | road       | C,nw     |      1 |
+      | road       | J,sw     |      1 |
+    Then player 2 should have the longest road card
+    When player 1 has cards and places a settlement at K,t
+    Then nobody should have the longest road card

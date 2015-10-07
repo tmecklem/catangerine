@@ -20,7 +20,7 @@ module Catangerine
 
     def start_game
       @board = BoardGenerator.new(@options[:board]).generate
-      @longest_road_observer = Observers::LongestRoadObserver.new
+      @longest_road_observer = Observers::LongestRoadObserver.new(self)
       @board.add_observer(@longest_road_observer)
       @current_player = @players.first
       @round = 1

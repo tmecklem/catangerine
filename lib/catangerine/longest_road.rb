@@ -6,6 +6,7 @@ class LongestRoad
   end
 
   def longest_path
+    return [] if road_segments.empty?
     road_segments.map { |segment|
       longest_path_from_segment(segment)
     }.max_by(&:length)

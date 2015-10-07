@@ -14,5 +14,9 @@ module Catangerine
     def self.adjacent_settlements(vertex)
       vertex.adjacent_vertices.map(&:settlement).compact
     end
+
+    def touching_roads
+      position.position.protruding_edges.map(&:road).compact
+    end
   end
 end
