@@ -20,7 +20,20 @@ Then(/^(#{PLAYER}) should receive resource cards from the following tiles:$/) do
     expected_resource_cards[tile.resource_type] += 1
   end
 
-  expected_resource_cards.each do |resource_type, count|
-    expect(player.resource_cards[resource_type]).to eq count
-  end
+  expect(player).to have_resource_cards(expected_resource_cards)
+end
+
+When(/^(#{PLAYER}) rolls the dice$/) do |player|
+  @dice_command = Catangerine::Commands::Dice.new(player)
+  game_manager.play(@dice_command)
+end
+
+Then(/^(#{PLAYER}) should get (\d+) resource card for each terrain with a matching number$/) do |player, _number_of_cards|
+  tiles = game_manager.board.tiles_with_chit(@dice_command.dice_value)
+  tiles_by_resource = tiles.group_by(&:resource_type)
+  expected_resource_cards = tiles_by_resource.each_with_object({}) { |(resource_type, tiles_of_terrain), acc|
+    acc[resource_type] = tiles_of_terrain.size
+  }
+
+  expect(player).to have_resource_cards(expected_resource_cards)
 end

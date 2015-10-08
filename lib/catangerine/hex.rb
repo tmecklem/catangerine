@@ -31,6 +31,17 @@ module Catangerine
       @board.hex_at(Location.new(location.q + d[0], location.r + d[1]))
     end
 
+    def touching_vertices
+      @touching_vertices ||= {
+        t: top_vertex,
+        nw: nw_neighbor.bottom_vertex,
+        sw: sw_neighbor.top_vertex,
+        b: bottom_vertex,
+        se: se_neighbor.top_vertex,
+        ne: ne_neighbor.bottom_vertex
+      }
+    end
+
     def to_s
       str = "[#{location.q},#{location.r}]\n"
       vertices.each do |_direction, v|

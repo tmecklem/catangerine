@@ -71,6 +71,10 @@ module Catangerine
       tiles
     end
 
+    def tiles_with_chit(chit_number)
+      tiles.select { |tile| tile.chit_number == chit_number }
+    end
+
     def harbors
       hexes.values.map(&:vertices).each_with_object([]) do |vertices, acc|
         acc.concat(vertices.values.map(&:harbor))

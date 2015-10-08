@@ -24,6 +24,10 @@ module Catangerine
       RESOURCE_TYPES[terrain]
     end
 
+    def touching_settlements
+      position.touching_vertices.values.map(&:settlement).compact
+    end
+
     def to_s
       "#{@resource_type} : #{@chit_number}"
     end
